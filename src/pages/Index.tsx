@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -9,6 +8,7 @@ import DroneProviderCard from "@/components/DroneProviderCard";
 import BookingModal from "@/components/BookingModal";
 import TrackingInterface from "@/components/TrackingInterface";
 import LanguageSelector from "@/components/LanguageSelector";
+import Footer from "@/components/Footer";
 
 const Index = () => {
   const [userType, setUserType] = useState<"farmer" | "provider" | null>(null);
@@ -57,7 +57,12 @@ const Index = () => {
   ];
 
   if (showTracking) {
-    return <TrackingInterface onBack={() => setShowTracking(false)} />;
+    return (
+      <div>
+        <TrackingInterface onBack={() => setShowTracking(false)} />
+        <Footer />
+      </div>
+    );
   }
 
   if (!userType) {
@@ -66,11 +71,12 @@ const Index = () => {
         <div className="container mx-auto px-4 py-8">
           {/* Header */}
           <div className="flex justify-between items-center mb-8">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold">AD</span>
-              </div>
-              <span className="text-xl font-bold text-gray-800">AgriDrone</span>
+            <div className="flex items-center space-x-3">
+              <img 
+                src="/lovable-uploads/ef04a1a0-8d4a-4127-9f84-f8e7af7d2adc.png" 
+                alt="AgriDrone Logo" 
+                className="h-12 w-auto"
+              />
             </div>
             <LanguageSelector 
               selectedLanguage={selectedLanguage}
@@ -152,6 +158,7 @@ const Index = () => {
             </Card>
           </div>
         </div>
+        <Footer />
       </div>
     );
   }
@@ -204,6 +211,7 @@ const Index = () => {
             </div>
           </Card>
         </div>
+        <Footer />
       </div>
     );
   }
@@ -264,6 +272,7 @@ const Index = () => {
           />
         )}
       </div>
+      <Footer />
     </div>
   );
 };
