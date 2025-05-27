@@ -83,7 +83,7 @@ const DroneRadar = ({ providerId }: { providerId: number }) => {
 
 const DroneProviderCard = ({ provider, onBook }: DroneProviderCardProps) => {
   return (
-    <Card className="p-6 hover:shadow-2xl transition-all duration-300 border-0 shadow-lg bg-white/95 backdrop-blur-sm border-l-4 border-l-gradient-to-b from-emerald-500 to-teal-500 transform hover:scale-[1.02]" style={{ borderLeftImage: 'linear-gradient(to bottom, #10b981, #14b8a6) 1' }}>
+    <Card className="p-6 hover:shadow-2xl transition-all duration-300 border-0 shadow-lg bg-white/95 backdrop-blur-sm border-l-4 border-l-emerald-500 transform hover:scale-[1.02]">
       <div className="flex flex-col md:flex-row gap-6">
         {/* Provider Image & Radar */}
         <div className="flex flex-col items-center gap-4">
