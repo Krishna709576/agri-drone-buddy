@@ -22,13 +22,82 @@ interface DroneProviderCardProps {
   onBook: (provider: DroneProvider) => void;
 }
 
+const DroneRadar = ({ providerId }: { providerId: number }) => {
+  // Generate mock drone positions based on provider ID for consistency
+  const generateDronePositions = (id: number) => {
+    const positions = [];
+    const droneCount = 3 + (id % 3); // 3-5 drones per provider
+    
+    for (let i = 0; i < droneCount; i++) {
+      const angle = (i * (360 / droneCount) + (id * 30)) % 360;
+      const distance = 20 + (i * 15) + ((id + i) % 20); // Varying distances
+      const x = 50 + distance * Math.cos((angle * Math.PI) / 180);
+      const y = 50 + distance * Math.sin((angle * Math.PI) / 180);
+      
+      positions.push({
+        id: i,
+        x: Math.max(10, Math.min(90, x)), // Keep within bounds
+        y: Math.max(10, Math.min(90, y)),
+        status: i === 0 ? 'active' : i === 1 ? 'charging' : 'available'
+      });
+    }
+    return positions;
+  };
+
+  const dronePositions = generateDronePositions(providerId);
+
+  return (
+    <div className="relative w-24 h-24 bg-gradient-to-br from-green-50 to-blue-50 rounded-full border-2 border-green-200 flex items-center justify-center">
+      {/* Radar circles */}
+      <div className="absolute inset-2 border border-green-300 rounded-full opacity-30"></div>
+      <div className="absolute inset-4 border border-green-400 rounded-full opacity-50"></div>
+      <div className="absolute inset-6 border border-green-500 rounded-full opacity-70"></div>
+      
+      {/* Center point (provider location) */}
+      <div className="w-2 h-2 bg-green-600 rounded-full z-10"></div>
+      
+      {/* Drone positions */}
+      {dronePositions.map((drone) => (
+        <div
+          key={drone.id}
+          className={`absolute w-1.5 h-1.5 rounded-full ${
+            drone.status === 'active' ? 'bg-green-500 animate-pulse' :
+            drone.status === 'charging' ? 'bg-yellow-500' : 'bg-blue-500'
+          }`}
+          style={{
+            left: `${drone.x}%`,
+            top: `${drone.y}%`,
+            transform: 'translate(-50%, -50%)'
+          }}
+          title={`Drone ${drone.id + 1} - ${drone.status}`}
+        />
+      ))}
+      
+      {/* Radar sweep animation */}
+      <div className="absolute inset-0 rounded-full overflow-hidden">
+        <div className="absolute w-full h-0.5 bg-gradient-to-r from-transparent via-green-500 to-transparent opacity-60 animate-spin origin-center"></div>
+      </div>
+    </div>
+  );
+};
+
 const DroneProviderCard = ({ provider, onBook }: DroneProviderCardProps) => {
   return (
     <Card className="p-6 hover:shadow-lg transition-all duration-300 border-l-4 border-l-green-500">
       <div className="flex flex-col md:flex-row gap-6">
-        {/* Provider Image */}
-        <div className="w-full md:w-32 h-32 bg-gradient-to-br from-green-100 to-blue-100 rounded-lg flex items-center justify-center">
-          <div className="text-4xl">🚁</div>
+        {/* Provider Image & Radar */}
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-full md:w-32 h-32 bg-gradient-to-br from-green-100 to-blue-100 rounded-lg flex items-center justify-center">
+            <div className="text-4xl">🚁</div>
+          </div>
+          
+          {/* Drone Radar */}
+          <div className="flex flex-col items-center">
+            <DroneRadar providerId={provider.id} />
+            <div className="text-xs text-gray-500 mt-1 text-center">
+              Nearby Drones
+            </div>
+          </div>
         </div>
 
         {/* Provider Info */}
@@ -71,6 +140,22 @@ const DroneProviderCard = ({ provider, onBook }: DroneProviderCardProps) => {
             <div className="flex items-center space-x-2 text-sm text-gray-600">
               <Video className="w-4 h-4" />
               <span>Video included</span>
+            </div>
+          </div>
+
+          {/* Drone Status Legend */}
+          <div className="flex items-center gap-4 text-xs text-gray-500 mb-4">
+            <div className="flex items-center gap-1">
+              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+              <span>Active</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+              <span>Charging</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+              <span>Available</span>
             </div>
           </div>
 
