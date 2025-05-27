@@ -47,22 +47,22 @@ const DroneRadar = ({ providerId }: { providerId: number }) => {
   const dronePositions = generateDronePositions(providerId);
 
   return (
-    <div className="relative w-24 h-24 bg-gradient-to-br from-green-50 to-blue-50 rounded-full border-2 border-green-200 flex items-center justify-center">
+    <div className="relative w-24 h-24 bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 rounded-full border-2 border-emerald-300 flex items-center justify-center shadow-lg">
       {/* Radar circles */}
-      <div className="absolute inset-2 border border-green-300 rounded-full opacity-30"></div>
-      <div className="absolute inset-4 border border-green-400 rounded-full opacity-50"></div>
-      <div className="absolute inset-6 border border-green-500 rounded-full opacity-70"></div>
+      <div className="absolute inset-2 border border-emerald-400 rounded-full opacity-40"></div>
+      <div className="absolute inset-4 border border-teal-500 rounded-full opacity-60"></div>
+      <div className="absolute inset-6 border border-cyan-600 rounded-full opacity-80"></div>
       
       {/* Center point (provider location) */}
-      <div className="w-2 h-2 bg-green-600 rounded-full z-10"></div>
+      <div className="w-2 h-2 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-full z-10 shadow-sm"></div>
       
       {/* Drone positions */}
       {dronePositions.map((drone) => (
         <div
           key={drone.id}
-          className={`absolute w-1.5 h-1.5 rounded-full ${
-            drone.status === 'active' ? 'bg-green-500 animate-pulse' :
-            drone.status === 'charging' ? 'bg-yellow-500' : 'bg-blue-500'
+          className={`absolute w-1.5 h-1.5 rounded-full shadow-sm ${
+            drone.status === 'active' ? 'bg-gradient-to-r from-emerald-500 to-teal-500 animate-pulse' :
+            drone.status === 'charging' ? 'bg-gradient-to-r from-yellow-500 to-orange-500' : 'bg-gradient-to-r from-cyan-500 to-blue-500'
           }`}
           style={{
             left: `${drone.x}%`,
@@ -75,7 +75,7 @@ const DroneRadar = ({ providerId }: { providerId: number }) => {
       
       {/* Radar sweep animation */}
       <div className="absolute inset-0 rounded-full overflow-hidden">
-        <div className="absolute w-full h-0.5 bg-gradient-to-r from-transparent via-green-500 to-transparent opacity-60 animate-spin origin-center"></div>
+        <div className="absolute w-full h-0.5 bg-gradient-to-r from-transparent via-emerald-500 to-transparent opacity-70 animate-spin origin-center"></div>
       </div>
     </div>
   );
@@ -83,18 +83,18 @@ const DroneRadar = ({ providerId }: { providerId: number }) => {
 
 const DroneProviderCard = ({ provider, onBook }: DroneProviderCardProps) => {
   return (
-    <Card className="p-6 hover:shadow-lg transition-all duration-300 border-l-4 border-l-green-500">
+    <Card className="p-6 hover:shadow-2xl transition-all duration-300 border-0 shadow-lg bg-white/95 backdrop-blur-sm border-l-4 border-l-gradient-to-b from-emerald-500 to-teal-500 transform hover:scale-[1.02]" style={{ borderLeftImage: 'linear-gradient(to bottom, #10b981, #14b8a6) 1' }}>
       <div className="flex flex-col md:flex-row gap-6">
         {/* Provider Image & Radar */}
         <div className="flex flex-col items-center gap-4">
-          <div className="w-full md:w-32 h-32 bg-gradient-to-br from-green-100 to-blue-100 rounded-lg flex items-center justify-center">
-            <div className="text-4xl">🚁</div>
+          <div className="w-full md:w-32 h-32 bg-gradient-to-br from-emerald-100 via-teal-100 to-cyan-100 rounded-lg flex items-center justify-center shadow-md">
+            <div className="text-4xl drop-shadow-sm">🚁</div>
           </div>
           
           {/* Drone Radar */}
           <div className="flex flex-col items-center">
             <DroneRadar providerId={provider.id} />
-            <div className="text-xs text-gray-500 mt-1 text-center">
+            <div className="text-xs text-gray-600 mt-1 text-center font-medium">
               Nearby Drones
             </div>
           </div>
@@ -107,7 +107,7 @@ const DroneProviderCard = ({ provider, onBook }: DroneProviderCardProps) => {
               <h3 className="text-xl font-semibold text-gray-900 mb-1">{provider.name}</h3>
               <div className="flex items-center space-x-4 text-sm text-gray-600 mb-2">
                 <div className="flex items-center">
-                  <Star className="w-4 h-4 text-yellow-500 mr-1" />
+                  <Star className="w-4 h-4 text-yellow-500 mr-1 drop-shadow-sm" />
                   <span className="font-medium">{provider.rating}</span>
                 </div>
                 <span>•</span>
@@ -116,12 +116,12 @@ const DroneProviderCard = ({ provider, onBook }: DroneProviderCardProps) => {
                 <span>{provider.experience} experience</span>
               </div>
               <div className="flex items-center text-sm text-gray-600">
-                <MapPin className="w-4 h-4 mr-1" />
+                <MapPin className="w-4 h-4 mr-1 text-emerald-600" />
                 <span>{provider.location}</span>
               </div>
             </div>
             <div className="text-right mt-4 md:mt-0">
-              <div className="text-2xl font-bold text-green-600">₹{provider.pricePerAcre}</div>
+              <div className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">₹{provider.pricePerAcre}</div>
               <div className="text-sm text-gray-600">per acre</div>
             </div>
           </div>
@@ -129,32 +129,32 @@ const DroneProviderCard = ({ provider, onBook }: DroneProviderCardProps) => {
           {/* Drone Specs */}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
             <div className="flex items-center space-x-2">
-              <Badge variant="secondary" className="bg-blue-100 text-blue-700">
+              <Badge variant="secondary" className="bg-gradient-to-r from-cyan-100 to-blue-100 text-cyan-700 border-0">
                 {provider.droneModel}
               </Badge>
             </div>
             <div className="flex items-center space-x-2 text-sm text-gray-600">
-              <Clock className="w-4 h-4" />
+              <Clock className="w-4 h-4 text-teal-600" />
               <span>{provider.batteryHours}h battery</span>
             </div>
             <div className="flex items-center space-x-2 text-sm text-gray-600">
-              <Video className="w-4 h-4" />
+              <Video className="w-4 h-4 text-violet-600" />
               <span>Video included</span>
             </div>
           </div>
 
           {/* Drone Status Legend */}
-          <div className="flex items-center gap-4 text-xs text-gray-500 mb-4">
+          <div className="flex items-center gap-4 text-xs text-gray-600 mb-4">
             <div className="flex items-center gap-1">
-              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+              <div className="w-2 h-2 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full shadow-sm"></div>
               <span>Active</span>
             </div>
             <div className="flex items-center gap-1">
-              <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+              <div className="w-2 h-2 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full shadow-sm"></div>
               <span>Charging</span>
             </div>
             <div className="flex items-center gap-1">
-              <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+              <div className="w-2 h-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full shadow-sm"></div>
               <span>Available</span>
             </div>
           </div>
@@ -162,15 +162,15 @@ const DroneProviderCard = ({ provider, onBook }: DroneProviderCardProps) => {
           {/* Actions */}
           <div className="flex flex-col sm:flex-row gap-3">
             <Button 
-              className="bg-green-600 hover:bg-green-700 text-white flex-1"
+              className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white flex-1 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
               onClick={() => onBook(provider)}
             >
               Book Now
             </Button>
-            <Button variant="outline" className="flex-1">
+            <Button variant="outline" className="flex-1 border-cyan-600 text-cyan-700 hover:bg-gradient-to-r hover:from-cyan-600 hover:to-blue-600 hover:text-white hover:border-transparent transition-all duration-200">
               View Details
             </Button>
-            <Button variant="outline" size="icon">
+            <Button variant="outline" size="icon" className="border-violet-600 text-violet-700 hover:bg-violet-600 hover:text-white hover:border-transparent transition-all duration-200">
               📞
             </Button>
           </div>
