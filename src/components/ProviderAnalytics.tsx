@@ -1,10 +1,9 @@
-
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area } from 'recharts';
-import { TrendingUp, TrendingDown, Users, Drone, MapPin, Calendar } from "lucide-react";
+import { TrendingUp, TrendingDown, Users, Plane, MapPin, Calendar } from "lucide-react";
 
 const ProviderAnalytics = () => {
   // Mock data for charts
@@ -110,7 +109,7 @@ const ProviderAnalytics = () => {
                 <span className="text-sm text-purple-600">92% utilization</span>
               </div>
             </div>
-            <Drone className="w-8 h-8 text-purple-500" />
+            <Plane className="w-8 h-8 text-purple-500" />
           </div>
         </Card>
 
