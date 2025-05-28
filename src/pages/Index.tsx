@@ -1,10 +1,9 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { MapPin, Clock, Star, Phone, Video, Calendar, BarChart3, History, Map } from "lucide-react";
+import { MapPin, Clock, Star, Phone, Video, Calendar, BarChart3, History, Map, Users, Settings, Gift, Plane } from "lucide-react";
 import DroneProviderCard from "@/components/DroneProviderCard";
 import BookingModal from "@/components/BookingModal";
 import TrackingInterface from "@/components/TrackingInterface";
@@ -13,12 +12,18 @@ import Footer from "@/components/Footer";
 import FieldManagement from "@/components/FieldManagement";
 import ServiceHistory from "@/components/ServiceHistory";
 import ProviderAnalytics from "@/components/ProviderAnalytics";
+import WeatherWidget from "@/components/WeatherWidget";
+import DroneFleetManagement from "@/components/DroneFleetManagement";
+import OperatorManagement from "@/components/OperatorManagement";
+import LoyaltyProgram from "@/components/LoyaltyProgram";
+import PaymentModal from "@/components/PaymentModal";
 
 const Index = () => {
   const [userType, setUserType] = useState<"farmer" | "provider" | null>(null);
   const [selectedLanguage, setSelectedLanguage] = useState("english");
   const [showBooking, setShowBooking] = useState(false);
   const [showTracking, setShowTracking] = useState(false);
+  const [showPayment, setShowPayment] = useState(false);
   const [selectedProvider, setSelectedProvider] = useState<any>(null);
   const [activeSection, setActiveSection] = useState<string>("dashboard");
 
@@ -221,6 +226,22 @@ const Index = () => {
                 <BarChart3 className="w-4 h-4 mr-2" />
                 Analytics
               </Button>
+              <Button 
+                variant={activeSection === "fleet" ? "default" : "outline"}
+                onClick={() => setActiveSection("fleet")}
+                className={activeSection === "fleet" ? "bg-gradient-to-r from-emerald-600 to-teal-600" : "border-emerald-600 text-emerald-700 hover:bg-emerald-600 hover:text-white"}
+              >
+                <Plane className="w-4 h-4 mr-2" />
+                Fleet
+              </Button>
+              <Button 
+                variant={activeSection === "operators" ? "default" : "outline"}
+                onClick={() => setActiveSection("operators")}
+                className={activeSection === "operators" ? "bg-gradient-to-r from-orange-600 to-red-600" : "border-orange-600 text-orange-700 hover:bg-orange-600 hover:text-white"}
+              >
+                <Users className="w-4 h-4 mr-2" />
+                Operators
+              </Button>
             </div>
           </Card>
 
@@ -240,7 +261,7 @@ const Index = () => {
                   <div className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-violet-600 bg-clip-text text-transparent">1,250</div>
                 </Card>
                 <Card className="p-6 bg-white/90 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-                  <h3 className="text-sm font-medium text-gray-600 mb-2">Rating</h3>
+                  <h3 className="text-sm font-medium text-gray-600 mb-2">Avg Rating</h3>
                   <div className="text-2xl font-bold bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent">4.8★</div>
                 </Card>
               </div>
@@ -266,6 +287,8 @@ const Index = () => {
           )}
 
           {activeSection === "analytics" && <ProviderAnalytics />}
+          {activeSection === "fleet" && <DroneFleetManagement />}
+          {activeSection === "operators" && <OperatorManagement />}
         </div>
         <Footer />
       </div>
@@ -324,11 +347,24 @@ const Index = () => {
               <History className="w-4 h-4 mr-2" />
               Service History
             </Button>
+            <Button 
+              variant={activeSection === "loyalty" ? "default" : "outline"}
+              onClick={() => setActiveSection("loyalty")}
+              className={activeSection === "loyalty" ? "bg-gradient-to-r from-yellow-600 to-orange-600" : "border-yellow-600 text-yellow-700 hover:bg-yellow-600 hover:text-white"}
+            >
+              <Gift className="w-4 h-4 mr-2" />
+              Rewards
+            </Button>
           </div>
         </Card>
 
         {activeSection === "dashboard" && (
           <>
+            {/* Weather Widget */}
+            <div className="mb-6">
+              <WeatherWidget />
+            </div>
+
             {/* Filter Bar */}
             <Card className="p-4 mb-6 bg-white/90 backdrop-blur-sm border-0 shadow-lg">
               <div className="flex flex-wrap gap-4 items-center">
@@ -360,6 +396,7 @@ const Index = () => {
 
         {activeSection === "fields" && <FieldManagement />}
         {activeSection === "history" && <ServiceHistory />}
+        {activeSection === "loyalty" && <LoyaltyProgram />}
 
         {/* Booking Modal */}
         {showBooking && selectedProvider && (
@@ -371,10 +408,21 @@ const Index = () => {
             }}
             onConfirm={() => {
               setShowBooking(false);
-              setShowTracking(true);
+              setShowPayment(true);
             }}
           />
         )}
+
+        {/* Payment Modal */}
+        <PaymentModal
+          isOpen={showPayment}
+          onClose={() => setShowPayment(false)}
+          totalAmount={selectedProvider ? 5.2 * selectedProvider.pricePerAcre : 0}
+          onPaymentSuccess={() => {
+            setShowPayment(false);
+            setShowTracking(true);
+          }}
+        />
       </div>
       <Footer />
     </div>
