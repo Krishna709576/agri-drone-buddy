@@ -2,27 +2,32 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Map, History, Gift } from "lucide-react";
+import { Map, History, Gift, Bot, User } from "lucide-react";
 import WeatherWidget from "@/components/WeatherWidget";
 import DroneProviderCard from "@/components/DroneProviderCard";
-import BookingModal from "@/components/BookingModal";
+import EnhancedBookingModal from "@/components/EnhancedBookingModal";
+import VoiceConfirmation from "@/components/VoiceConfirmation";
 import FieldManagement from "@/components/FieldManagement";
 import ServiceHistory from "@/components/ServiceHistory";
 import LoyaltyProgram from "@/components/LoyaltyProgram";
 import PaymentModal from "@/components/PaymentModal";
 import FilterBar from "@/components/farmer/FilterBar";
+import SmartRecommendations from "@/components/SmartRecommendations";
 import Footer from "@/components/Footer";
 
 interface FarmerDashboardProps {
   onBack: () => void;
   onShowTracking: () => void;
+  user: any;
 }
 
-const FarmerDashboard = ({ onBack, onShowTracking }: FarmerDashboardProps) => {
+const FarmerDashboard = ({ onBack, onShowTracking, user }: FarmerDashboardProps) => {
   const [showBooking, setShowBooking] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
+  const [showVoiceConfirmation, setShowVoiceConfirmation] = useState(false);
   const [selectedProvider, setSelectedProvider] = useState<any>(null);
   const [activeSection, setActiveSection] = useState<string>("dashboard");
+  const [bookingData, setBookingData] = useState<any>(null);
 
   const droneProviders = [
     {
@@ -39,7 +44,7 @@ const FarmerDashboard = ({ onBack, onShowTracking }: FarmerDashboardProps) => {
     },
     {
       id: 2,
-      name: "FarmFlyer Services",
+      name: "FarmFlyer Services", 
       rating: 4.6,
       completedJobs: 890,
       droneModel: "20L Capacity",
@@ -63,6 +68,17 @@ const FarmerDashboard = ({ onBack, onShowTracking }: FarmerDashboardProps) => {
     }
   ];
 
+  const handleBookingConfirm = (data: any) => {
+    setBookingData(data);
+    setShowBooking(false);
+    setShowVoiceConfirmation(true);
+  };
+
+  const handleVoiceConfirmed = () => {
+    setShowVoiceConfirmation(false);
+    setShowPayment(true);
+  };
+
   return (
     <div 
       className="min-h-screen relative"
@@ -80,9 +96,17 @@ const FarmerDashboard = ({ onBack, onShowTracking }: FarmerDashboardProps) => {
       <div className="relative z-10 container mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
-          <Button variant="ghost" onClick={onBack} className="hover:bg-white/50">
-            ← Back
-          </Button>
+          <div className="flex items-center gap-4">
+            <Button variant="ghost" onClick={onBack} className="hover:bg-white/50">
+              ← Back
+            </Button>
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center">
+                <User className="w-4 h-4 text-emerald-600" />
+              </div>
+              <span className="font-medium">Welcome, {user?.name || 'Farmer'}</span>
+            </div>
+          </div>
           <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-cyan-600 bg-clip-text text-transparent">Farmer Dashboard</h1>
           <Button onClick={onShowTracking} className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700">
             Track Order
@@ -128,6 +152,9 @@ const FarmerDashboard = ({ onBack, onShowTracking }: FarmerDashboardProps) => {
 
         {activeSection === "dashboard" && (
           <>
+            {/* AI Smart Recommendations */}
+            <SmartRecommendations />
+
             {/* Weather Widget */}
             <div className="mb-6">
               <WeatherWidget />
@@ -156,26 +183,31 @@ const FarmerDashboard = ({ onBack, onShowTracking }: FarmerDashboardProps) => {
         {activeSection === "history" && <ServiceHistory />}
         {activeSection === "loyalty" && <LoyaltyProgram />}
 
-        {/* Booking Modal */}
+        {/* Enhanced Booking Modal */}
         {showBooking && selectedProvider && (
-          <BookingModal
+          <EnhancedBookingModal
             provider={selectedProvider}
             onClose={() => {
               setShowBooking(false);
               setSelectedProvider(null);
             }}
-            onConfirm={() => {
-              setShowBooking(false);
-              setShowPayment(true);
-            }}
+            onConfirm={handleBookingConfirm}
           />
         )}
+
+        {/* Voice Confirmation Modal */}
+        <VoiceConfirmation
+          isOpen={showVoiceConfirmation}
+          onClose={() => setShowVoiceConfirmation(false)}
+          bookingDetails={bookingData}
+          onConfirmed={handleVoiceConfirmed}
+        />
 
         {/* Payment Modal */}
         <PaymentModal
           isOpen={showPayment}
           onClose={() => setShowPayment(false)}
-          totalAmount={selectedProvider ? 5.2 * selectedProvider.pricePerAcre : 0}
+          totalAmount={bookingData?.totalCost || 0}
           onPaymentSuccess={() => {
             setShowPayment(false);
             onShowTracking();
