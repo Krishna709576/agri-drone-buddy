@@ -21,8 +21,7 @@ const LandingPage = ({ onUserTypeSelect, selectedLanguage, onLanguageChange }: L
           url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=2000&q=80')
         `,
         backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed'
+        backgroundPosition: 'center'
       }}
     >
       <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/90 via-sky-50/90 to-violet-50/90"></div>
@@ -65,7 +64,7 @@ const LandingPage = ({ onUserTypeSelect, selectedLanguage, onLanguageChange }: L
             <Button 
               size="lg" 
               variant="outline" 
-              className="border-2 border-cyan-600 text-cyan-700 hover:bg-gradient-to-r hover:from-cyan-600 hover:to-blue-600 hover:text-white px-8 py-4 text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 bg-white/80 backdrop-blur-sm"
+              className="border-2 border-cyan-600 text-cyan-700 hover:bg-gradient-to-r hover:from-cyan-600 hover:to-blue-600 hover:text-white px-8 py-4 text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 bg-white/80"
               onClick={() => onUserTypeSelect("provider")}
             >
               I'm a Drone Provider
@@ -91,7 +90,7 @@ const LandingPage = ({ onUserTypeSelect, selectedLanguage, onLanguageChange }: L
 
         {/* Features */}
         <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-          <Card className="p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-white/90 backdrop-blur-sm border-0 shadow-lg">
+          <Card className="p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-white/90 border-0 shadow-lg">
             <div className="w-12 h-12 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-lg flex items-center justify-center mx-auto mb-4 shadow-md">
               <MapPin className="w-6 h-6 text-emerald-600" />
             </div>
@@ -99,7 +98,7 @@ const LandingPage = ({ onUserTypeSelect, selectedLanguage, onLanguageChange }: L
             <p className="text-gray-600">Real-time GPS tracking of your drone service with live updates</p>
           </Card>
           
-          <Card className="p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-white/90 backdrop-blur-sm border-0 shadow-lg">
+          <Card className="p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-white/90 border-0 shadow-lg">
             <div className="w-12 h-12 bg-gradient-to-br from-cyan-100 to-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4 shadow-md">
               <Video className="w-6 h-6 text-cyan-600" />
             </div>
@@ -107,7 +106,7 @@ const LandingPage = ({ onUserTypeSelect, selectedLanguage, onLanguageChange }: L
             <p className="text-gray-600">Receive detailed video footage of the spraying process</p>
           </Card>
           
-          <Card className="p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-white/90 backdrop-blur-sm border-0 shadow-lg">
+          <Card className="p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-white/90 border-0 shadow-lg">
             <div className="w-12 h-12 bg-gradient-to-br from-violet-100 to-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4 shadow-md">
               <Phone className="w-6 h-6 text-violet-600" />
             </div>
