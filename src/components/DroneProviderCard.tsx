@@ -22,81 +22,14 @@ interface DroneProviderCardProps {
   onBook: (provider: DroneProvider) => void;
 }
 
-const DroneRadar = ({ providerId }: { providerId: number }) => {
-  // Generate mock drone positions based on provider ID for consistency
-  const generateDronePositions = (id: number) => {
-    const positions = [];
-    const droneCount = 3 + (id % 3); // 3-5 drones per provider
-    
-    for (let i = 0; i < droneCount; i++) {
-      const angle = (i * (360 / droneCount) + (id * 30)) % 360;
-      const distance = 20 + (i * 15) + ((id + i) % 20); // Varying distances
-      const x = 50 + distance * Math.cos((angle * Math.PI) / 180);
-      const y = 50 + distance * Math.sin((angle * Math.PI) / 180);
-      
-      positions.push({
-        id: i,
-        x: Math.max(10, Math.min(90, x)), // Keep within bounds
-        y: Math.max(10, Math.min(90, y)),
-        status: i === 0 ? 'active' : i === 1 ? 'charging' : 'available'
-      });
-    }
-    return positions;
-  };
-
-  const dronePositions = generateDronePositions(providerId);
-
-  return (
-    <div className="relative w-24 h-24 bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 rounded-full border-2 border-emerald-300 flex items-center justify-center shadow-lg">
-      {/* Radar circles */}
-      <div className="absolute inset-2 border border-emerald-400 rounded-full opacity-40"></div>
-      <div className="absolute inset-4 border border-teal-500 rounded-full opacity-60"></div>
-      <div className="absolute inset-6 border border-cyan-600 rounded-full opacity-80"></div>
-      
-      {/* Center point (provider location) */}
-      <div className="w-2 h-2 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-full z-10 shadow-sm"></div>
-      
-      {/* Drone positions */}
-      {dronePositions.map((drone) => (
-        <div
-          key={drone.id}
-          className={`absolute w-1.5 h-1.5 rounded-full shadow-sm ${
-            drone.status === 'active' ? 'bg-gradient-to-r from-emerald-500 to-teal-500 animate-pulse' :
-            drone.status === 'charging' ? 'bg-gradient-to-r from-yellow-500 to-orange-500' : 'bg-gradient-to-r from-cyan-500 to-blue-500'
-          }`}
-          style={{
-            left: `${drone.x}%`,
-            top: `${drone.y}%`,
-            transform: 'translate(-50%, -50%)'
-          }}
-          title={`Drone ${drone.id + 1} - ${drone.status}`}
-        />
-      ))}
-      
-      {/* Radar sweep animation */}
-      <div className="absolute inset-0 rounded-full overflow-hidden">
-        <div className="absolute w-full h-0.5 bg-gradient-to-r from-transparent via-emerald-500 to-transparent opacity-70 animate-spin origin-center"></div>
-      </div>
-    </div>
-  );
-};
-
 const DroneProviderCard = ({ provider, onBook }: DroneProviderCardProps) => {
   return (
     <Card className="p-6 hover:shadow-2xl transition-all duration-300 border-0 shadow-lg bg-white/95 backdrop-blur-sm border-l-4 border-l-emerald-500 transform hover:scale-[1.02]">
       <div className="flex flex-col md:flex-row gap-6">
-        {/* Provider Image & Radar */}
+        {/* Provider Image */}
         <div className="flex flex-col items-center gap-4">
           <div className="w-full md:w-32 h-32 bg-gradient-to-br from-emerald-100 via-teal-100 to-cyan-100 rounded-lg flex items-center justify-center shadow-md">
             <div className="text-4xl drop-shadow-sm">🚁</div>
-          </div>
-          
-          {/* Drone Radar */}
-          <div className="flex flex-col items-center">
-            <DroneRadar providerId={provider.id} />
-            <div className="text-xs text-gray-600 mt-1 text-center font-medium">
-              Nearby Drones
-            </div>
           </div>
         </div>
 
@@ -140,22 +73,6 @@ const DroneProviderCard = ({ provider, onBook }: DroneProviderCardProps) => {
             <div className="flex items-center space-x-2 text-sm text-gray-600">
               <Video className="w-4 h-4 text-violet-600" />
               <span>Video included</span>
-            </div>
-          </div>
-
-          {/* Drone Status Legend */}
-          <div className="flex items-center gap-4 text-xs text-gray-600 mb-4">
-            <div className="flex items-center gap-1">
-              <div className="w-2 h-2 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full shadow-sm"></div>
-              <span>Active</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <div className="w-2 h-2 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full shadow-sm"></div>
-              <span>Charging</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <div className="w-2 h-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full shadow-sm"></div>
-              <span>Available</span>
             </div>
           </div>
 

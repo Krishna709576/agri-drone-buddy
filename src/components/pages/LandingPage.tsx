@@ -90,7 +90,17 @@ const LandingPage = ({ onUserTypeSelect, selectedLanguage, onLanguageChange }: L
 
         {/* Features */}
         <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-          <Card className="p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-white/90 border-0 shadow-lg">
+          <Card 
+            className="p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-white/90 border-0 shadow-lg relative overflow-hidden"
+            style={{
+              backgroundImage: `
+                linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9)),
+                url('https://images.unsplash.com/photo-1487887235947-a955ef187fcc?auto=format&fit=crop&w=800&q=80')
+              `,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}
+          >
             <div className="w-12 h-12 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-lg flex items-center justify-center mx-auto mb-4 shadow-md">
               <MapPin className="w-6 h-6 text-emerald-600" />
             </div>
@@ -98,7 +108,17 @@ const LandingPage = ({ onUserTypeSelect, selectedLanguage, onLanguageChange }: L
             <p className="text-gray-600">Real-time GPS tracking of your drone service with live updates</p>
           </Card>
           
-          <Card className="p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-white/90 border-0 shadow-lg">
+          <Card 
+            className="p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-white/90 border-0 shadow-lg relative overflow-hidden"
+            style={{
+              backgroundImage: `
+                linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9)),
+                url('https://images.unsplash.com/photo-1605810230434-7631ac76ec81?auto=format&fit=crop&w=800&q=80')
+              `,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}
+          >
             <div className="w-12 h-12 bg-gradient-to-br from-cyan-100 to-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4 shadow-md">
               <Video className="w-6 h-6 text-cyan-600" />
             </div>
@@ -106,7 +126,17 @@ const LandingPage = ({ onUserTypeSelect, selectedLanguage, onLanguageChange }: L
             <p className="text-gray-600">Receive detailed video footage of the spraying process</p>
           </Card>
           
-          <Card className="p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-white/90 border-0 shadow-lg">
+          <Card 
+            className="p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-white/90 border-0 shadow-lg relative overflow-hidden"
+            style={{
+              backgroundImage: `
+                linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9)),
+                url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80')
+              `,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}
+          >
             <div className="w-12 h-12 bg-gradient-to-br from-violet-100 to-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4 shadow-md">
               <Phone className="w-6 h-6 text-violet-600" />
             </div>
