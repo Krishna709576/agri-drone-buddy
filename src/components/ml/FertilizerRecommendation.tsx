@@ -6,71 +6,81 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Beaker, Download, AlertCircle, CheckCircle } from "lucide-react";
+import { Beaker, Download, AlertCircle, CheckCircle, Calendar, Leaf } from "lucide-react";
+import { mlService, FertilizerRecommendation as FertilizerRecommendationType } from "@/services/mlService";
+import { useToast } from "@/components/ui/use-toast";
 
 const FertilizerRecommendation = () => {
   const [selectedCrop, setSelectedCrop] = useState("");
   const [soilCondition, setSoilCondition] = useState("");
   const [detectedDisease, setDetectedDisease] = useState("");
   const [customIssue, setCustomIssue] = useState("");
-  const [recommendations, setRecommendations] = useState<any>(null);
+  const [recommendations, setRecommendations] = useState<FertilizerRecommendationType | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const { toast } = useToast();
 
-  const crops = ["Rice", "Wheat", "Cotton", "Tomato", "Potato", "Onion", "Corn", "Sugarcane"];
-  const soilConditions = ["Poor nutrition", "High pH", "Low pH", "Waterlogged", "Drought stressed", "Pest affected"];
-  const diseases = ["Late Blight", "Leaf Spot", "Powdery Mildew", "Root Rot", "Bacterial Wilt", "Mosaic Virus"];
+  const crops = ["Rice", "Wheat", "Cotton", "Tomato", "Potato", "Onion", "Corn", "Sugarcane", "Soybean", "Mustard"];
+  const soilConditions = ["Poor nutrition", "High pH", "Low pH", "Waterlogged", "Drought stressed", "Pest affected", "Normal", "Sandy soil", "Clay soil"];
+  const diseases = ["Late Blight", "Leaf Spot", "Powdery Mildew", "Root Rot", "Bacterial Wilt", "Mosaic Virus", "Rust", "Aphid infestation"];
 
-  const handleAnalyze = () => {
-    setIsAnalyzing(true);
-    // Simulate analysis
-    setTimeout(() => {
-      setRecommendations({
-        fertilizers: [
-          {
-            name: "NPK 19-19-19",
-            type: "Balanced Fertilizer",
-            dosage: "25 kg per acre",
-            timing: "Pre-sowing and flowering stage",
-            price: "₹1,200/bag",
-            priority: "high"
-          },
-          {
-            name: "Urea",
-            type: "Nitrogen Fertilizer",
-            dosage: "50 kg per acre",
-            timing: "After 30 days of sowing",
-            price: "₹380/bag",
-            priority: "medium"
-          }
-        ],
-        pesticides: detectedDisease ? [
-          {
-            name: "Copper Oxychloride",
-            type: "Fungicide",
-            dosage: "2g per liter",
-            timing: "Spray every 15 days",
-            price: "₹450/500g",
-            priority: "high"
-          }
-        ] : [],
-        organicOptions: [
-          {
-            name: "Vermicompost",
-            type: "Organic Fertilizer",
-            dosage: "500 kg per acre",
-            timing: "Before sowing",
-            price: "₹6/kg",
-            priority: "medium"
-          }
-        ],
-        applicationSchedule: [
-          { week: 1, task: "Apply base fertilizer (NPK)", stage: "Pre-sowing" },
-          { week: 4, task: "First top dressing (Urea)", stage: "Vegetative" },
-          { week: 8, task: "Second top dressing", stage: "Flowering" }
-        ]
+  const handleAnalyze = async () => {
+    if (!selectedCrop) {
+      toast({
+        title: "Missing Information",
+        description: "Please select a crop type for accurate recommendations",
+        variant: "destructive"
       });
+      return;
+    }
+
+    setIsAnalyzing(true);
+    try {
+      console.log("Getting AI fertilizer recommendations...");
+      const result = await mlService.getFertilizerRecommendation({
+        crop: selectedCrop,
+        soilCondition,
+        detectedDisease,
+        customIssue
+      });
+      setRecommendations(result);
+      
+      toast({
+        title: "Analysis Complete",
+        description: `Generated personalized fertilizer prescription for ${selectedCrop}`,
+      });
+    } catch (error) {
+      console.error("Fertilizer recommendation failed:", error);
+      toast({
+        title: "Analysis Failed",
+        description: "Unable to generate recommendations. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
       setIsAnalyzing(false);
-    }, 2000);
+    }
+  };
+
+  const downloadPrescription = () => {
+    if (!recommendations) return;
+    
+    const prescriptionData = {
+      timestamp: new Date().toISOString(),
+      crop: selectedCrop,
+      soilCondition,
+      detectedDisease,
+      customIssue,
+      recommendations
+    };
+
+    const blob = new Blob([JSON.stringify(prescriptionData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `fertilizer-prescription-${selectedCrop}-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   };
 
   const getPriorityColor = (priority: string) => {
@@ -89,15 +99,20 @@ const FertilizerRecommendation = () => {
           <Beaker className="w-5 h-5 text-blue-600" />
         </div>
         <div>
-          <h3 className="text-lg font-semibold">Fertilizer & Pesticide Recommendation</h3>
-          <p className="text-sm text-gray-600">AI-powered chemical recommendations for optimal crop health</p>
+          <h3 className="text-lg font-semibold">AI Fertilizer & Treatment Prescription</h3>
+          <p className="text-sm text-gray-600">ML-powered chemical recommendations for optimal crop health</p>
         </div>
+        {recommendations && (
+          <Badge className="ml-auto bg-gradient-to-r from-blue-100 to-cyan-100 text-blue-700 border-0">
+            Prescription Ready
+          </Badge>
+        )}
       </div>
 
       <div className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="crop">Crop Type</Label>
+            <Label htmlFor="crop">Crop Type *</Label>
             <Select onValueChange={setSelectedCrop}>
               <SelectTrigger>
                 <SelectValue placeholder="Select crop" />
@@ -142,7 +157,7 @@ const FertilizerRecommendation = () => {
             <Label htmlFor="customIssue">Additional Notes</Label>
             <Textarea
               id="customIssue"
-              placeholder="Describe any specific issues..."
+              placeholder="Describe any specific issues or symptoms..."
               value={customIssue}
               onChange={(e) => setCustomIssue(e.target.value)}
               className="h-20"
@@ -155,13 +170,14 @@ const FertilizerRecommendation = () => {
           disabled={isAnalyzing || !selectedCrop}
           className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700"
         >
-          {isAnalyzing ? "Analyzing..." : "Get Recommendations"}
+          {isAnalyzing ? "AI Generating Prescription..." : "Get AI Recommendations"}
         </Button>
 
         {isAnalyzing && (
-          <div className="text-center py-4">
-            <div className="animate-spin w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full mx-auto mb-2"></div>
-            <p className="text-gray-600">Analyzing crop requirements...</p>
+          <div className="text-center py-6">
+            <div className="animate-spin w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full mx-auto mb-3"></div>
+            <p className="text-gray-600 font-medium">AI analyzing crop requirements...</p>
+            <p className="text-sm text-gray-500 mt-1">Processing soil chemistry, plant health, and treatment options</p>
           </div>
         )}
 
@@ -171,22 +187,27 @@ const FertilizerRecommendation = () => {
             <div>
               <h4 className="font-semibold mb-3 flex items-center gap-2">
                 <CheckCircle className="w-4 h-4 text-green-600" />
-                Recommended Fertilizers
+                Primary Fertilizer Recommendations
               </h4>
               <div className="space-y-3">
                 {recommendations.fertilizers.map((item: any, index: number) => (
-                  <div key={index} className="border rounded-lg p-3">
+                  <div key={index} className="border rounded-lg p-3 bg-green-50/50">
                     <div className="flex items-center justify-between mb-2">
                       <h5 className="font-medium">{item.name}</h5>
-                      <Badge variant="outline" className={getPriorityColor(item.priority)}>
-                        {item.priority} priority
-                      </Badge>
+                      <div className="flex gap-2">
+                        <Badge variant="outline" className={getPriorityColor(item.priority)}>
+                          {item.priority} priority
+                        </Badge>
+                        <Badge variant="outline" className="border-green-600 text-green-700">
+                          {item.type}
+                        </Badge>
+                      </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-2 text-sm">
-                      <div><span className="text-gray-600">Type:</span> {item.type}</div>
+                    <div className="grid grid-cols-2 gap-2 text-sm mb-2">
                       <div><span className="text-gray-600">Dosage:</span> {item.dosage}</div>
                       <div><span className="text-gray-600">Timing:</span> {item.timing}</div>
                       <div><span className="text-gray-600">Price:</span> {item.price}</div>
+                      <div><span className="text-gray-600">Nutrients:</span> {item.nutrients?.join(', ') || 'N/A'}</div>
                     </div>
                   </div>
                 ))}
@@ -194,23 +215,28 @@ const FertilizerRecommendation = () => {
             </div>
 
             {/* Pesticides */}
-            {recommendations.pesticides.length > 0 && (
+            {recommendations.pesticides && recommendations.pesticides.length > 0 && (
               <div>
                 <h4 className="font-semibold mb-3 flex items-center gap-2">
                   <AlertCircle className="w-4 h-4 text-red-600" />
-                  Recommended Pesticides
+                  Disease/Pest Treatment
                 </h4>
                 <div className="space-y-3">
                   {recommendations.pesticides.map((item: any, index: number) => (
-                    <div key={index} className="border rounded-lg p-3 border-red-200 bg-red-50">
+                    <div key={index} className="border rounded-lg p-3 border-red-200 bg-red-50/50">
                       <div className="flex items-center justify-between mb-2">
                         <h5 className="font-medium">{item.name}</h5>
-                        <Badge variant="outline" className={getPriorityColor(item.priority)}>
-                          {item.priority} priority
-                        </Badge>
+                        <div className="flex gap-2">
+                          <Badge variant="outline" className={getPriorityColor(item.priority)}>
+                            {item.priority} priority
+                          </Badge>
+                          <Badge variant="outline" className="border-red-600 text-red-700">
+                            {item.type}
+                          </Badge>
+                        </div>
                       </div>
-                      <div className="grid grid-cols-2 gap-2 text-sm">
-                        <div><span className="text-gray-600">Type:</span> {item.type}</div>
+                      <div className="grid grid-cols-2 gap-2 text-sm mb-2">
+                        <div><span className="text-gray-600">Target:</span> {item.targetPest}</div>
                         <div><span className="text-gray-600">Dosage:</span> {item.dosage}</div>
                         <div><span className="text-gray-600">Timing:</span> {item.timing}</div>
                         <div><span className="text-gray-600">Price:</span> {item.price}</div>
@@ -224,7 +250,7 @@ const FertilizerRecommendation = () => {
             {/* Organic Options */}
             <div>
               <h4 className="font-semibold mb-3 flex items-center gap-2">
-                <Beaker className="w-4 h-4 text-green-600" />
+                <Leaf className="w-4 h-4 text-green-600" />
                 Organic Alternatives
               </h4>
               <div className="space-y-3">
@@ -233,7 +259,7 @@ const FertilizerRecommendation = () => {
                     <div className="flex items-center justify-between mb-2">
                       <h5 className="font-medium">{item.name}</h5>
                       <Badge variant="outline" className="border-green-600 text-green-700">
-                        Organic
+                        Organic Certified
                       </Badge>
                     </div>
                     <div className="grid grid-cols-2 gap-2 text-sm">
@@ -249,21 +275,32 @@ const FertilizerRecommendation = () => {
 
             {/* Application Schedule */}
             <div>
-              <h4 className="font-semibold mb-3">Application Schedule</h4>
+              <h4 className="font-semibold mb-3 flex items-center gap-2">
+                <Calendar className="w-4 h-4 text-blue-600" />
+                AI-Optimized Application Schedule
+              </h4>
               <div className="space-y-2">
                 {recommendations.applicationSchedule.map((schedule: any, index: number) => (
-                  <div key={index} className="flex items-center gap-4 p-2 bg-gray-50 rounded">
-                    <Badge variant="outline" className="min-w-16">Week {schedule.week}</Badge>
-                    <span className="flex-1">{schedule.task}</span>
-                    <Badge variant="secondary">{schedule.stage}</Badge>
+                  <div key={index} className="flex items-center gap-4 p-3 bg-blue-50 rounded-lg">
+                    <Badge variant="outline" className="min-w-16 border-blue-600 text-blue-700">
+                      Week {schedule.week}
+                    </Badge>
+                    <span className="flex-1 font-medium">{schedule.task}</span>
+                    <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+                      {schedule.stage}
+                    </Badge>
+                    <span className="text-sm text-gray-600">{schedule.weather}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            <Button className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700">
+            <Button 
+              onClick={downloadPrescription}
+              className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700"
+            >
               <Download className="w-4 h-4 mr-2" />
-              Download Prescription
+              Download Complete Prescription
             </Button>
           </div>
         )}
