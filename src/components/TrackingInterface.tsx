@@ -140,18 +140,44 @@ const TrackingInterface = ({ onBack }: TrackingInterfaceProps) => {
 
             {droneLocation && (
               <div className="space-y-4">
-                {/* Map Placeholder */}
-                <div className="bg-gray-100 rounded-lg h-64 flex items-center justify-center relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-cyan-400 opacity-20"></div>
+                {/* Map Placeholder with Animated Drone */}
+                <div className="bg-gradient-to-br from-green-100 to-blue-100 rounded-lg h-64 flex items-center justify-center relative overflow-hidden border-2 border-green-200">
+                  {/* Background Pattern */}
+                  <div className="absolute inset-0 opacity-20">
+                    <div className="grid grid-cols-8 grid-rows-6 h-full w-full">
+                      {Array.from({ length: 48 }).map((_, i) => (
+                        <div key={i} className="border border-green-300/30"></div>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  {/* Center Info */}
                   <div className="text-center z-10">
-                    <MapPin className="w-12 h-12 text-blue-600 mx-auto mb-2" />
-                    <p className="font-medium">Live Drone Position</p>
+                    <p className="font-medium text-gray-700 mb-1">Live Drone Position</p>
                     <p className="text-sm text-gray-600">
                       Lat: {droneLocation.latitude.toFixed(6)}, Lng: {droneLocation.longitude.toFixed(6)}
                     </p>
                   </div>
-                  {/* Simulated drone marker */}
-                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-red-500 rounded-full animate-pulse"></div>
+                  
+                  {/* Animated Drone Icon */}
+                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <div className="relative">
+                      {/* Drone Icon */}
+                      <img 
+                        src="/lovable-uploads/7975a43e-61b4-4021-bf5c-b238c0887b85.png" 
+                        alt="Drone" 
+                        className="w-12 h-12 animate-bounce drop-shadow-lg"
+                      />
+                      {/* Pulsing Ring Effect */}
+                      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 border-2 border-blue-400 rounded-full animate-ping opacity-75"></div>
+                      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 border border-blue-300 rounded-full animate-pulse opacity-50"></div>
+                    </div>
+                  </div>
+
+                  {/* Flight Path Dots */}
+                  <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-blue-500 rounded-full animate-pulse opacity-60"></div>
+                  <div className="absolute top-3/4 right-1/4 w-2 h-2 bg-blue-500 rounded-full animate-pulse opacity-60"></div>
+                  <div className="absolute bottom-1/4 left-1/3 w-2 h-2 bg-blue-500 rounded-full animate-pulse opacity-60"></div>
                 </div>
 
                 {/* Drone Stats */}
