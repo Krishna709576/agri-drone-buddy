@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -14,6 +13,7 @@ import PaymentModal from "@/components/PaymentModal";
 import FilterBar from "@/components/farmer/FilterBar";
 import SmartRecommendations from "@/components/SmartRecommendations";
 import Footer from "@/components/Footer";
+import MLFeaturesTab from "@/components/ml/MLFeaturesTab";
 
 interface FarmerDashboardProps {
   onBack: () => void;
@@ -124,6 +124,14 @@ const FarmerDashboard = ({ onBack, onShowTracking, user }: FarmerDashboardProps)
               Find Services
             </Button>
             <Button 
+              variant={activeSection === "ml" ? "default" : "outline"}
+              onClick={() => setActiveSection("ml")}
+              className={activeSection === "ml" ? "bg-gradient-to-r from-purple-600 to-pink-600" : "border-purple-600 text-purple-700 hover:bg-purple-600 hover:text-white"}
+            >
+              <Bot className="w-4 h-4 mr-2" />
+              AI Features
+            </Button>
+            <Button 
               variant={activeSection === "fields" ? "default" : "outline"}
               onClick={() => setActiveSection("fields")}
               className={activeSection === "fields" ? "bg-gradient-to-r from-cyan-600 to-blue-600" : "border-cyan-600 text-cyan-700 hover:bg-cyan-600 hover:text-white"}
@@ -179,6 +187,7 @@ const FarmerDashboard = ({ onBack, onShowTracking, user }: FarmerDashboardProps)
           </>
         )}
 
+        {activeSection === "ml" && <MLFeaturesTab />}
         {activeSection === "fields" && <FieldManagement />}
         {activeSection === "history" && <ServiceHistory />}
         {activeSection === "loyalty" && <LoyaltyProgram />}
