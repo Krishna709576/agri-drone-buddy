@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LandingPage from "@/components/pages/LandingPage";
 import FarmerDashboard from "@/components/pages/FarmerDashboard";
 import ProviderDashboard from "@/components/pages/ProviderDashboard";
@@ -7,6 +7,7 @@ import TrackingInterface from "@/components/TrackingInterface";
 import Footer from "@/components/Footer";
 import AuthModal from "@/components/AuthModal";
 import AIChatbot from "@/components/AIChatbot";
+import LoadingScreen from "@/components/LoadingScreen";
 
 const IndexPage = () => {
   const [userType, setUserType] = useState<"farmer" | "provider" | null>(null);
@@ -15,25 +16,65 @@ const IndexPage = () => {
   const [user, setUser] = useState<any>(null);
   const [showAuth, setShowAuth] = useState(false);
   const [showChatbot, setShowChatbot] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleUserTypeSelect = (type: "farmer" | "provider") => {
     if (!user) {
-      setUserType(type);
-      setShowAuth(true);
+      setIsLoading(true);
+      // Simulate loading time
+      setTimeout(() => {
+        setUserType(type);
+        setShowAuth(true);
+        setIsLoading(false);
+      }, 1500);
     } else {
-      setUserType(type);
+      setIsLoading(true);
+      setTimeout(() => {
+        setUserType(type);
+        setIsLoading(false);
+      }, 1200);
     }
   };
 
   const handleAuthSuccess = (userData: any) => {
-    setUser(userData);
-    setShowAuth(false);
+    setIsLoading(true);
+    setTimeout(() => {
+      setUser(userData);
+      setShowAuth(false);
+      setIsLoading(false);
+    }, 1000);
+  };
+
+  const handleShowTracking = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setShowTracking(true);
+      setIsLoading(false);
+    }, 1200);
+  };
+
+  const handleBackToLanding = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setUserType(null);
+      setUser(null);
+      setIsLoading(false);
+    }, 1000);
+  };
+
+  const handleBackFromTracking = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setShowTracking(false);
+      setIsLoading(false);
+    }, 1000);
   };
 
   if (showTracking) {
     return (
       <div>
-        <TrackingInterface onBack={() => setShowTracking(false)} />
+        <LoadingScreen isLoading={isLoading} />
+        <TrackingInterface onBack={handleBackFromTracking} />
         <Footer />
         <AIChatbot isOpen={showChatbot} onToggle={() => setShowChatbot(!showChatbot)} />
       </div>
@@ -43,6 +84,7 @@ const IndexPage = () => {
   if (!userType || !user) {
     return (
       <>
+        <LoadingScreen isLoading={isLoading} />
         <LandingPage 
           onUserTypeSelect={handleUserTypeSelect} 
           selectedLanguage={selectedLanguage} 
@@ -61,7 +103,8 @@ const IndexPage = () => {
   if (userType === "provider") {
     return (
       <>
-        <ProviderDashboard onBack={() => setUserType(null)} />
+        <LoadingScreen isLoading={isLoading} />
+        <ProviderDashboard onBack={handleBackToLanding} />
         <AIChatbot isOpen={showChatbot} onToggle={() => setShowChatbot(!showChatbot)} />
       </>
     );
@@ -69,9 +112,10 @@ const IndexPage = () => {
 
   return (
     <>
+      <LoadingScreen isLoading={isLoading} />
       <FarmerDashboard 
-        onBack={() => setUserType(null)} 
-        onShowTracking={() => setShowTracking(true)} 
+        onBack={handleBackToLanding} 
+        onShowTracking={handleShowTracking} 
         user={user}
       />
       <AIChatbot isOpen={showChatbot} onToggle={() => setShowChatbot(!showChatbot)} />
