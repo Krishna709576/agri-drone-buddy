@@ -1,7 +1,8 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Map, History, Gift, Bot, User } from "lucide-react";
+import { Map, History, Gift, Bot, User, BarChart3, Bell } from "lucide-react";
 import WeatherWidget from "@/components/WeatherWidget";
 import DroneProviderCard from "@/components/DroneProviderCard";
 import EnhancedBookingModal from "@/components/EnhancedBookingModal";
@@ -14,6 +15,9 @@ import FilterBar from "@/components/farmer/FilterBar";
 import SmartRecommendations from "@/components/SmartRecommendations";
 import Footer from "@/components/Footer";
 import MLFeaturesTab from "@/components/ml/MLFeaturesTab";
+import AnalyticsDashboard from "@/components/analytics/AnalyticsDashboard";
+import RealTimeNotifications from "@/components/analytics/RealTimeNotifications";
+import SmartSchedulingWidget from "@/components/analytics/SmartSchedulingWidget";
 
 interface FarmerDashboardProps {
   onBack: () => void;
@@ -108,9 +112,12 @@ const FarmerDashboard = ({ onBack, onShowTracking, user }: FarmerDashboardProps)
             </div>
           </div>
           <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-cyan-600 bg-clip-text text-transparent">Farmer Dashboard</h1>
-          <Button onClick={onShowTracking} className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700">
-            Track Order
-          </Button>
+          <div className="flex items-center gap-3">
+            <RealTimeNotifications />
+            <Button onClick={onShowTracking} className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700">
+              Track Order
+            </Button>
+          </div>
         </div>
 
         {/* Navigation */}
@@ -122,6 +129,14 @@ const FarmerDashboard = ({ onBack, onShowTracking, user }: FarmerDashboardProps)
               className={activeSection === "dashboard" ? "bg-gradient-to-r from-emerald-600 to-teal-600" : "border-emerald-600 text-emerald-700 hover:bg-emerald-600 hover:text-white"}
             >
               Find Services
+            </Button>
+            <Button 
+              variant={activeSection === "analytics" ? "default" : "outline"}
+              onClick={() => setActiveSection("analytics")}
+              className={activeSection === "analytics" ? "bg-gradient-to-r from-indigo-600 to-purple-600" : "border-indigo-600 text-indigo-700 hover:bg-indigo-600 hover:text-white"}
+            >
+              <BarChart3 className="w-4 h-4 mr-2" />
+              Analytics
             </Button>
             <Button 
               variant={activeSection === "ml" ? "default" : "outline"}
@@ -163,6 +178,11 @@ const FarmerDashboard = ({ onBack, onShowTracking, user }: FarmerDashboardProps)
             {/* AI Smart Recommendations */}
             <SmartRecommendations />
 
+            {/* Smart Scheduling Widget */}
+            <div className="mb-6">
+              <SmartSchedulingWidget />
+            </div>
+
             {/* Weather Widget */}
             <div className="mb-6">
               <WeatherWidget />
@@ -187,6 +207,7 @@ const FarmerDashboard = ({ onBack, onShowTracking, user }: FarmerDashboardProps)
           </>
         )}
 
+        {activeSection === "analytics" && <AnalyticsDashboard />}
         {activeSection === "ml" && <MLFeaturesTab />}
         {activeSection === "fields" && <FieldManagement />}
         {activeSection === "history" && <ServiceHistory />}
