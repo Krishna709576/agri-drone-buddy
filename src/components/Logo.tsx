@@ -1,12 +1,16 @@
 
 import { Zap } from "lucide-react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface LogoProps {
   className?: string;
   size?: "sm" | "md" | "lg";
+  selectedLanguage?: string;
 }
 
-const Logo = ({ className = "", size = "md" }: LogoProps) => {
+const Logo = ({ className = "", size = "md", selectedLanguage = "english" }: LogoProps) => {
+  const { t } = useTranslation(selectedLanguage);
+  
   const sizeClasses = {
     sm: "h-8",
     md: "h-12", 
@@ -57,11 +61,11 @@ const Logo = ({ className = "", size = "md" }: LogoProps) => {
       {/* Logo Text */}
       <div className="flex flex-col">
         <span className={`${textSizeClasses[size]} font-bold bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-transparent leading-tight`}>
-          AgriDrone
+          {t('agriDrone')}
         </span>
         <div className="flex items-center gap-1 -mt-1">
           <Zap className="w-3 h-3 text-emerald-500" />
-          <span className="text-xs text-gray-600 font-medium tracking-wide">SMART FARMING</span>
+          <span className="text-xs text-gray-600 font-medium tracking-wide">{t('smartFarming')}</span>
         </div>
       </div>
     </div>

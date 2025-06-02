@@ -2,8 +2,15 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Cloud, Sun, CloudRain, Wind } from "lucide-react";
+import { useTranslation } from "@/hooks/useTranslation";
 
-const WeatherWidget = () => {
+interface WeatherWidgetProps {
+  selectedLanguage?: string;
+}
+
+const WeatherWidget = ({ selectedLanguage = "english" }: WeatherWidgetProps) => {
+  const { t } = useTranslation(selectedLanguage);
+
   // Mock weather data
   const weatherData = {
     temperature: 28,
@@ -31,18 +38,18 @@ const WeatherWidget = () => {
   return (
     <Card className="p-4 bg-gradient-to-r from-blue-50 to-cyan-50 border-0 shadow-lg">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-lg font-semibold text-gray-800">Weather Conditions</h3>
+        <h3 className="text-lg font-semibold text-gray-800">{t('weatherConditions')}</h3>
         {getWeatherIcon(weatherData.condition)}
       </div>
       
       <div className="grid grid-cols-3 gap-3 mb-3">
         <div className="text-center">
           <div className="text-2xl font-bold text-blue-600">{weatherData.temperature}°C</div>
-          <div className="text-xs text-gray-600">Temperature</div>
+          <div className="text-xs text-gray-600">{t('temperature')}</div>
         </div>
         <div className="text-center">
           <div className="text-lg font-semibold text-blue-600">{weatherData.humidity}%</div>
-          <div className="text-xs text-gray-600">Humidity</div>
+          <div className="text-xs text-gray-600">{t('humidity')}</div>
         </div>
         <div className="text-center flex flex-col items-center">
           <div className="flex items-center gap-1">
