@@ -1,10 +1,10 @@
-
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Video, Phone, Camera, CloudSun, Leaf, Sprout, BarChart3, Shield, Zap } from "lucide-react";
 import LanguageSelector from "@/components/LanguageSelector";
 import Footer from "@/components/Footer";
+import Logo from "@/components/Logo";
 
 interface LandingPageProps {
   onUserTypeSelect: (type: "farmer" | "provider") => void;
@@ -20,13 +20,7 @@ const LandingPage = ({ onUserTypeSelect, selectedLanguage, onLanguageChange }: L
       <div className="relative z-10 container mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
-          <div className="flex items-center space-x-3">
-            <img 
-              src="/lovable-uploads/ef04a1a0-8d4a-4127-9f84-f8e7af7d2adc.png" 
-              alt="AgriDrone Logo" 
-              className="h-12 w-auto drop-shadow-lg"
-            />
-          </div>
+          <Logo size="lg" />
           <LanguageSelector 
             selectedLanguage={selectedLanguage}
             onLanguageChange={onLanguageChange}
