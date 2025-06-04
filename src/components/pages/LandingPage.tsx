@@ -88,7 +88,14 @@ const LandingPage = ({ onUserTypeSelect, selectedLanguage, onLanguageChange }: L
             Comprehensive platform connecting farmers with drone service providers
           </p>
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <Card className="p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-white border-0 shadow-lg">
+            <Card className="p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-white border-0 shadow-lg overflow-hidden">
+              <div className="mb-4">
+                <img 
+                  src="/lovable-uploads/e77fe766-31f5-49ea-9dba-70e711e07362.png" 
+                  alt="Live Tracking Drone" 
+                  className="w-full h-48 object-cover rounded-lg"
+                />
+              </div>
               <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
                 <MapPin className="w-8 h-8 text-white" />
               </div>
@@ -97,7 +104,14 @@ const LandingPage = ({ onUserTypeSelect, selectedLanguage, onLanguageChange }: L
               <Badge className="bg-emerald-100 text-emerald-700 border-0">{t('realTimeUpdates')}</Badge>
             </Card>
             
-            <Card className="p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-white border-0 shadow-lg">
+            <Card className="p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-white border-0 shadow-lg overflow-hidden">
+              <div className="mb-4">
+                <img 
+                  src="/lovable-uploads/e358272b-df2c-48d2-9899-831d7b465ba7.png" 
+                  alt="Video Reports Drone" 
+                  className="w-full h-48 object-cover rounded-lg"
+                />
+              </div>
               <div className="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
                 <Video className="w-8 h-8 text-white" />
               </div>
@@ -106,7 +120,14 @@ const LandingPage = ({ onUserTypeSelect, selectedLanguage, onLanguageChange }: L
               <Badge className="bg-blue-100 text-blue-700 border-0">{t('hdQuality')}</Badge>
             </Card>
             
-            <Card className="p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-white border-0 shadow-lg">
+            <Card className="p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-white border-0 shadow-lg overflow-hidden">
+              <div className="mb-4">
+                <img 
+                  src="/lovable-uploads/86f8b6c5-8df8-4461-86a4-a5f62ab3fef8.png" 
+                  alt="Smart Confirmation" 
+                  className="w-full h-48 object-cover rounded-lg"
+                />
+              </div>
               <div className="w-16 h-16 bg-gradient-to-br from-violet-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
                 <Phone className="w-8 h-8 text-white" />
               </div>
