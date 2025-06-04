@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Video, Phone, Camera, CloudSun, Leaf, Sprout, BarChart3, Shield, Zap, Users, Drone, TrendingUp } from "lucide-react";
+import { MapPin, Video, Phone, Camera, CloudSun, Leaf, Sprout, BarChart3, Shield, Zap, Users, Plane, TrendingUp } from "lucide-react";
 import LanguageSelector from "@/components/LanguageSelector";
 import Footer from "@/components/Footer";
 import Logo from "@/components/Logo";
@@ -118,14 +118,14 @@ const LandingPage = ({ onUserTypeSelect, selectedLanguage, onLanguageChange }: L
         </div>
 
         {/* For Farmers Section */}
-        <div className="mb-16">
+        <div className="mb-16 bg-white rounded-3xl p-12 shadow-lg">
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-medium mb-4">
               <Users className="w-4 h-4" />
               For Farmers
             </div>
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Smart Farming Solutions
+              Smart Farming Features
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
               Advanced tools and insights to optimize your farming operations
@@ -137,7 +137,7 @@ const LandingPage = ({ onUserTypeSelect, selectedLanguage, onLanguageChange }: L
               <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center mb-4">
                 <Camera className="w-7 h-7 text-white" />
               </div>
-              <h3 className="text-lg font-bold mb-2 text-green-700">Crop Monitoring</h3>
+              <h3 className="text-lg font-bold mb-2 text-green-700">Smart Crop Monitoring</h3>
               <p className="text-gray-600 text-sm mb-3">Advanced crop health detection and analysis</p>
               <Badge className="bg-green-500 text-white text-xs">Smart Detection</Badge>
             </Card>
@@ -156,7 +156,7 @@ const LandingPage = ({ onUserTypeSelect, selectedLanguage, onLanguageChange }: L
                 <Leaf className="w-7 h-7 text-white" />
               </div>
               <h3 className="text-lg font-bold mb-2 text-purple-700">Smart Recommendations</h3>
-              <p className="text-gray-600 text-sm mb-3">Personalized farming insights and suggestions</p>
+              <p className="text-gray-600 text-sm mb-3">Intelligent farming insights and suggestions</p>
               <Badge className="bg-purple-500 text-white text-xs">Intelligent</Badge>
             </Card>
 
@@ -190,10 +190,10 @@ const LandingPage = ({ onUserTypeSelect, selectedLanguage, onLanguageChange }: L
         </div>
 
         {/* For Providers Section */}
-        <div className="mb-16">
+        <div className="mb-16 bg-gradient-to-br from-slate-50 to-blue-50 rounded-3xl p-12 shadow-lg">
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-medium mb-4">
-              <Drone className="w-4 h-4" />
+              <Plane className="w-4 h-4" />
               For Drone Providers
             </div>
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
@@ -230,6 +230,33 @@ const LandingPage = ({ onUserTypeSelect, selectedLanguage, onLanguageChange }: L
               <h3 className="text-lg font-bold mb-2 text-violet-700">Smart Scheduling</h3>
               <p className="text-gray-600 text-sm mb-3">Automated booking and route optimization</p>
               <Badge className="bg-violet-500 text-white text-xs">Optimized</Badge>
+            </Card>
+
+            <Card className="p-6 bg-gradient-to-br from-orange-50 to-red-50 border-2 border-orange-100 hover:shadow-xl transition-all duration-300">
+              <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl flex items-center justify-center mb-4">
+                <MapPin className="w-7 h-7 text-white" />
+              </div>
+              <h3 className="text-lg font-bold mb-2 text-orange-700">Route Optimization</h3>
+              <p className="text-gray-600 text-sm mb-3">Smart route planning and optimization</p>
+              <Badge className="bg-orange-500 text-white text-xs">Efficient</Badge>
+            </Card>
+
+            <Card className="p-6 bg-gradient-to-br from-pink-50 to-rose-50 border-2 border-pink-100 hover:shadow-xl transition-all duration-300">
+              <div className="w-14 h-14 bg-gradient-to-br from-pink-500 to-rose-500 rounded-xl flex items-center justify-center mb-4">
+                <Shield className="w-7 h-7 text-white" />
+              </div>
+              <h3 className="text-lg font-bold mb-2 text-pink-700">Service Quality</h3>
+              <p className="text-gray-600 text-sm mb-3">Quality assurance and service tracking</p>
+              <Badge className="bg-pink-500 text-white text-xs">Certified</Badge>
+            </Card>
+
+            <Card className="p-6 bg-gradient-to-br from-green-50 to-lime-50 border-2 border-green-100 hover:shadow-xl transition-all duration-300">
+              <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-lime-500 rounded-xl flex items-center justify-center mb-4">
+                <Video className="w-7 h-7 text-white" />
+              </div>
+              <h3 className="text-lg font-bold mb-2 text-green-700">Service Documentation</h3>
+              <p className="text-gray-600 text-sm mb-3">Automated reporting and documentation</p>
+              <Badge className="bg-green-500 text-white text-xs">Automated</Badge>
             </Card>
           </div>
         </div>
