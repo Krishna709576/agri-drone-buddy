@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Video, Phone, Camera, CloudSun, Leaf, Sprout, BarChart3, Shield, Zap } from "lucide-react";
+import { MapPin, Video, Phone, Camera, CloudSun, Leaf, Sprout, BarChart3, Shield, Zap, Users, Drone, TrendingUp } from "lucide-react";
 import LanguageSelector from "@/components/LanguageSelector";
 import Footer from "@/components/Footer";
 import Logo from "@/components/Logo";
@@ -35,7 +35,7 @@ const LandingPage = ({ onUserTypeSelect, selectedLanguage, onLanguageChange }: L
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
             <Zap className="w-4 h-4" />
-            {t('aiPoweredAgriculture')}
+            Smart Agriculture Platform
           </div>
           <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
             {t('heroTitle')}
@@ -62,7 +62,7 @@ const LandingPage = ({ onUserTypeSelect, selectedLanguage, onLanguageChange }: L
             </Button>
           </div>
 
-          {/* Enhanced Stats */}
+          {/* Stats */}
           <div className="grid grid-cols-3 gap-8 max-w-lg mx-auto mb-12">
             <div className="text-center p-4 bg-white rounded-xl shadow-lg">
               <div className="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">2500+</div>
@@ -79,11 +79,14 @@ const LandingPage = ({ onUserTypeSelect, selectedLanguage, onLanguageChange }: L
           </div>
         </div>
 
-        {/* Core Features */}
+        {/* Core Platform Features */}
         <div className="mb-16">
-          <h2 className="text-3xl font-bold text-center mb-12 bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
-            {t('coreFeatures')}
+          <h2 className="text-3xl font-bold text-center mb-4 text-gray-900">
+            Smart Agriculture Solutions
           </h2>
+          <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+            Comprehensive platform connecting farmers with drone service providers
+          </p>
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             <Card className="p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-white border-0 shadow-lg">
               <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
@@ -107,96 +110,126 @@ const LandingPage = ({ onUserTypeSelect, selectedLanguage, onLanguageChange }: L
               <div className="w-16 h-16 bg-gradient-to-br from-violet-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
                 <Phone className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-gray-800">{t('aiConfirmation')}</h3>
-              <p className="text-gray-600 mb-4">{t('aiConfirmationDesc')}</p>
+              <h3 className="text-xl font-bold mb-3 text-gray-800">Smart Confirmation</h3>
+              <p className="text-gray-600 mb-4">Voice confirmation and multi-language support</p>
               <Badge className="bg-purple-100 text-purple-700 border-0">{t('multiLanguage')}</Badge>
             </Card>
           </div>
         </div>
 
-        {/* Showcase Activities */}
+        {/* For Farmers Section */}
         <div className="mb-16">
-          <h2 className="text-3xl font-bold text-center mb-12 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-            {t('advancedAiFeatures')}
-          </h2>
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-medium mb-4">
+              <Users className="w-4 h-4" />
+              For Farmers
+            </div>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Smart Farming Solutions
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Advanced tools and insights to optimize your farming operations
+            </p>
+          </div>
+          
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            
-            {/* Crop Disease Detection */}
-            <Card className="p-6 bg-gradient-to-br from-red-50 to-orange-50 border-2 border-red-100 hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-              <div className="w-14 h-14 bg-gradient-to-br from-red-500 to-orange-500 rounded-xl flex items-center justify-center mb-4">
+            <Card className="p-6 bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-100 hover:shadow-xl transition-all duration-300">
+              <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center mb-4">
                 <Camera className="w-7 h-7 text-white" />
               </div>
-              <h3 className="text-lg font-bold mb-2 text-red-700">{t('diseaseDetection')}</h3>
-              <p className="text-gray-600 text-sm mb-3">{t('diseaseDetectionDesc')}</p>
-              <div className="flex items-center gap-2">
-                <Badge className="bg-red-500 text-white text-xs">{t('aiPowered')}</Badge>
-                <Badge className="bg-orange-100 text-orange-700 text-xs border-0">{t('accuracy95')}</Badge>
-              </div>
+              <h3 className="text-lg font-bold mb-2 text-green-700">Crop Monitoring</h3>
+              <p className="text-gray-600 text-sm mb-3">Advanced crop health detection and analysis</p>
+              <Badge className="bg-green-500 text-white text-xs">Smart Detection</Badge>
             </Card>
 
-            {/* Weather Reports */}
-            <Card className="p-6 bg-gradient-to-br from-blue-50 to-cyan-50 border-2 border-blue-100 hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+            <Card className="p-6 bg-gradient-to-br from-blue-50 to-cyan-50 border-2 border-blue-100 hover:shadow-xl transition-all duration-300">
               <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center mb-4">
                 <CloudSun className="w-7 h-7 text-white" />
               </div>
-              <h3 className="text-lg font-bold mb-2 text-blue-700">{t('weatherAnalytics')}</h3>
-              <p className="text-gray-600 text-sm mb-3">{t('weatherAnalyticsDesc')}</p>
-              <div className="flex items-center gap-2">
-                <Badge className="bg-blue-500 text-white text-xs">{t('liveData')}</Badge>
-                <Badge className="bg-cyan-100 text-cyan-700 text-xs border-0">{t('monitoring247')}</Badge>
-              </div>
+              <h3 className="text-lg font-bold mb-2 text-blue-700">Weather Intelligence</h3>
+              <p className="text-gray-600 text-sm mb-3">Smart weather analytics and recommendations</p>
+              <Badge className="bg-blue-500 text-white text-xs">Live Data</Badge>
             </Card>
 
-            {/* Crop Recommendations */}
-            <Card className="p-6 bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-100 hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-              <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center mb-4">
+            <Card className="p-6 bg-gradient-to-br from-purple-50 to-indigo-50 border-2 border-purple-100 hover:shadow-xl transition-all duration-300">
+              <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-xl flex items-center justify-center mb-4">
                 <Leaf className="w-7 h-7 text-white" />
               </div>
-              <h3 className="text-lg font-bold mb-2 text-green-700">{t('smartRecommendations')}</h3>
-              <p className="text-gray-600 text-sm mb-3">{t('smartRecommendationsDesc')}</p>
-              <div className="flex items-center gap-2">
-                <Badge className="bg-green-500 text-white text-xs">{t('smartAi')}</Badge>
-                <Badge className="bg-emerald-100 text-emerald-700 text-xs border-0">{t('personalized')}</Badge>
-              </div>
+              <h3 className="text-lg font-bold mb-2 text-purple-700">Smart Recommendations</h3>
+              <p className="text-gray-600 text-sm mb-3">Personalized farming insights and suggestions</p>
+              <Badge className="bg-purple-500 text-white text-xs">Intelligent</Badge>
             </Card>
 
-            {/* Field Management */}
-            <Card className="p-6 bg-gradient-to-br from-yellow-50 to-amber-50 border-2 border-yellow-100 hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+            <Card className="p-6 bg-gradient-to-br from-yellow-50 to-amber-50 border-2 border-yellow-100 hover:shadow-xl transition-all duration-300">
               <div className="w-14 h-14 bg-gradient-to-br from-yellow-500 to-amber-500 rounded-xl flex items-center justify-center mb-4">
                 <Sprout className="w-7 h-7 text-white" />
               </div>
-              <h3 className="text-lg font-bold mb-2 text-yellow-700">{t('fieldManagement')}</h3>
-              <p className="text-gray-600 text-sm mb-3">{t('fieldManagementDesc')}</p>
-              <div className="flex items-center gap-2">
-                <Badge className="bg-yellow-500 text-white text-xs">{t('precision')}</Badge>
-                <Badge className="bg-amber-100 text-amber-700 text-xs border-0">{t('analytics')}</Badge>
-              </div>
+              <h3 className="text-lg font-bold mb-2 text-yellow-700">Field Management</h3>
+              <p className="text-gray-600 text-sm mb-3">Comprehensive field tracking and optimization</p>
+              <Badge className="bg-yellow-500 text-white text-xs">Precision</Badge>
             </Card>
 
-            {/* Performance Analytics */}
-            <Card className="p-6 bg-gradient-to-br from-indigo-50 to-purple-50 border-2 border-indigo-100 hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+            <Card className="p-6 bg-gradient-to-br from-indigo-50 to-purple-50 border-2 border-indigo-100 hover:shadow-xl transition-all duration-300">
               <div className="w-14 h-14 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center mb-4">
                 <BarChart3 className="w-7 h-7 text-white" />
               </div>
-              <h3 className="text-lg font-bold mb-2 text-indigo-700">{t('performanceAnalytics')}</h3>
-              <p className="text-gray-600 text-sm mb-3">{t('performanceAnalyticsDesc')}</p>
-              <div className="flex items-center gap-2">
-                <Badge className="bg-indigo-500 text-white text-xs">{t('analytics')}</Badge>
-                <Badge className="bg-purple-100 text-purple-700 text-xs border-0">{t('insights')}</Badge>
-              </div>
+              <h3 className="text-lg font-bold mb-2 text-indigo-700">Analytics Dashboard</h3>
+              <p className="text-gray-600 text-sm mb-3">Performance insights and data visualization</p>
+              <Badge className="bg-indigo-500 text-white text-xs">Analytics</Badge>
             </Card>
 
-            {/* Safety & Compliance */}
-            <Card className="p-6 bg-gradient-to-br from-teal-50 to-green-50 border-2 border-teal-100 hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+            <Card className="p-6 bg-gradient-to-br from-teal-50 to-green-50 border-2 border-teal-100 hover:shadow-xl transition-all duration-300">
               <div className="w-14 h-14 bg-gradient-to-br from-teal-500 to-green-500 rounded-xl flex items-center justify-center mb-4">
                 <Shield className="w-7 h-7 text-white" />
               </div>
-              <h3 className="text-lg font-bold mb-2 text-teal-700">{t('safetyCompliance')}</h3>
-              <p className="text-gray-600 text-sm mb-3">{t('safetyComplianceDesc')}</p>
-              <div className="flex items-center gap-2">
-                <Badge className="bg-teal-500 text-white text-xs">{t('certified')}</Badge>
-                <Badge className="bg-green-100 text-green-700 text-xs border-0">{t('compliant')}</Badge>
+              <h3 className="text-lg font-bold mb-2 text-teal-700">Safety Compliance</h3>
+              <p className="text-gray-600 text-sm mb-3">Automated safety checks and compliance</p>
+              <Badge className="bg-teal-500 text-white text-xs">Certified</Badge>
+            </Card>
+          </div>
+        </div>
+
+        {/* For Providers Section */}
+        <div className="mb-16">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-medium mb-4">
+              <Drone className="w-4 h-4" />
+              For Drone Providers
+            </div>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Professional Service Management
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Complete business management tools for drone service providers
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            <Card className="p-6 bg-gradient-to-br from-cyan-50 to-blue-50 border-2 border-cyan-100 hover:shadow-xl transition-all duration-300">
+              <div className="w-14 h-14 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-xl flex items-center justify-center mb-4">
+                <BarChart3 className="w-7 h-7 text-white" />
               </div>
+              <h3 className="text-lg font-bold mb-2 text-cyan-700">Business Analytics</h3>
+              <p className="text-gray-600 text-sm mb-3">Revenue tracking and performance insights</p>
+              <Badge className="bg-cyan-500 text-white text-xs">Professional</Badge>
+            </Card>
+
+            <Card className="p-6 bg-gradient-to-br from-emerald-50 to-teal-50 border-2 border-emerald-100 hover:shadow-xl transition-all duration-300">
+              <div className="w-14 h-14 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-xl flex items-center justify-center mb-4">
+                <Users className="w-7 h-7 text-white" />
+              </div>
+              <h3 className="text-lg font-bold mb-2 text-emerald-700">Fleet Management</h3>
+              <p className="text-gray-600 text-sm mb-3">Smart drone fleet tracking and optimization</p>
+              <Badge className="bg-emerald-500 text-white text-xs">Efficient</Badge>
+            </Card>
+
+            <Card className="p-6 bg-gradient-to-br from-violet-50 to-purple-50 border-2 border-violet-100 hover:shadow-xl transition-all duration-300">
+              <div className="w-14 h-14 bg-gradient-to-br from-violet-500 to-purple-500 rounded-xl flex items-center justify-center mb-4">
+                <TrendingUp className="w-7 h-7 text-white" />
+              </div>
+              <h3 className="text-lg font-bold mb-2 text-violet-700">Smart Scheduling</h3>
+              <p className="text-gray-600 text-sm mb-3">Automated booking and route optimization</p>
+              <Badge className="bg-violet-500 text-white text-xs">Optimized</Badge>
             </Card>
           </div>
         </div>
