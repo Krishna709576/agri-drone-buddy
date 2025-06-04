@@ -91,7 +91,7 @@ const LandingPage = ({ onUserTypeSelect, selectedLanguage, onLanguageChange }: L
             <Card className="p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-white border-0 shadow-lg overflow-hidden">
               <div className="mb-4">
                 <img 
-                  src="/lovable-uploads/e77fe766-31f5-49ea-9dba-70e711e07362.png" 
+                  src="/lovable-uploads/e358272b-df2c-48d2-9899-831d7b465ba7.png" 
                   alt="Live Tracking Drone" 
                   className="w-full h-48 object-cover rounded-lg"
                 />
@@ -107,7 +107,7 @@ const LandingPage = ({ onUserTypeSelect, selectedLanguage, onLanguageChange }: L
             <Card className="p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-white border-0 shadow-lg overflow-hidden">
               <div className="mb-4">
                 <img 
-                  src="/lovable-uploads/e358272b-df2c-48d2-9899-831d7b465ba7.png" 
+                  src="/lovable-uploads/e77fe766-31f5-49ea-9dba-70e711e07362.png" 
                   alt="Video Reports Drone" 
                   className="w-full h-48 object-cover rounded-lg"
                 />
