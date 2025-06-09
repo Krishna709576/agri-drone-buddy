@@ -13,7 +13,7 @@ interface LandingPageProps {
 }
 
 const LandingPage = ({ onUserTypeSelect, selectedLanguage, onLanguageChange }: LandingPageProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(selectedLanguage);
 
   return (
     <div 
