@@ -1,8 +1,9 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Map, History, Gift, Bot, User, BarChart3, Bell } from "lucide-react";
+import { Map, History, Gift, Bot, User, BarChart3, Bell, LogOut } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/use-toast";
 import WeatherWidget from "@/components/WeatherWidget";
 import DroneProviderCard from "@/components/DroneProviderCard";
 import EnhancedBookingModal from "@/components/EnhancedBookingModal";
@@ -26,12 +27,30 @@ interface FarmerDashboardProps {
 }
 
 const FarmerDashboard = ({ onBack, onShowTracking, user }: FarmerDashboardProps) => {
+  const { signOut } = useAuth();
+  const { toast } = useToast();
   const [showBooking, setShowBooking] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
   const [showVoiceConfirmation, setShowVoiceConfirmation] = useState(false);
   const [selectedProvider, setSelectedProvider] = useState<any>(null);
   const [activeSection, setActiveSection] = useState<string>("dashboard");
   const [bookingData, setBookingData] = useState<any>(null);
+
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      toast({
+        title: "Logged out successfully",
+        description: "Come back soon!",
+      });
+    } catch (error) {
+      toast({
+        title: "Error logging out",
+        description: "Please try again",
+        variant: "destructive"
+      });
+    }
+  };
 
   const droneProviders = [
     {
@@ -108,7 +127,10 @@ const FarmerDashboard = ({ onBack, onShowTracking, user }: FarmerDashboardProps)
               <div className="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center">
                 <User className="w-4 h-4 text-emerald-600" />
               </div>
-              <span className="font-medium">Welcome, {user?.name || 'Farmer'}</span>
+              <div className="flex flex-col">
+                <span className="font-medium">Welcome, {user?.full_name || 'Farmer'}</span>
+                <span className="text-sm text-gray-600">{user?.user_type || 'farmer'}</span>
+              </div>
             </div>
           </div>
           <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-cyan-600 bg-clip-text text-transparent">Farmer Dashboard</h1>
@@ -116,6 +138,10 @@ const FarmerDashboard = ({ onBack, onShowTracking, user }: FarmerDashboardProps)
             <RealTimeNotifications />
             <Button onClick={onShowTracking} className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700">
               Track Order
+            </Button>
+            <Button onClick={handleLogout} variant="outline" className="border-red-600 text-red-700 hover:bg-red-600 hover:text-white">
+              <LogOut className="w-4 h-4 mr-2" />
+              Logout
             </Button>
           </div>
         </div>

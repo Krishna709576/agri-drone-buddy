@@ -1,9 +1,10 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { BarChart3, Plane, Users } from "lucide-react";
+import { BarChart3, Plane, Users, LogOut } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/use-toast";
 import ProviderAnalytics from "@/components/ProviderAnalytics";
 import DroneFleetManagement from "@/components/DroneFleetManagement";
 import OperatorManagement from "@/components/OperatorManagement";
@@ -16,7 +17,25 @@ interface ProviderDashboardProps {
 }
 
 const ProviderDashboard = ({ onBack }: ProviderDashboardProps) => {
+  const { signOut } = useAuth();
+  const { toast } = useToast();
   const [activeSection, setActiveSection] = useState<string>("dashboard");
+
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      toast({
+        title: "Logged out successfully",
+        description: "Come back soon!",
+      });
+    } catch (error) {
+      toast({
+        title: "Error logging out",
+        description: "Please try again",
+        variant: "destructive"
+      });
+    }
+  };
 
   return (
     <div 
@@ -38,6 +57,10 @@ const ProviderDashboard = ({ onBack }: ProviderDashboardProps) => {
             ← Back
           </Button>
           <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Provider Dashboard</h1>
+          <Button onClick={handleLogout} variant="outline" className="border-red-600 text-red-700 hover:bg-red-600 hover:text-white">
+            <LogOut className="w-4 h-4 mr-2" />
+            Logout
+          </Button>
         </div>
 
         {/* Navigation */}
