@@ -11,7 +11,10 @@ import VoiceConfirmation from "@/components/VoiceConfirmation";
 import FieldManagement from "@/components/FieldManagement";
 import ServiceHistory from "@/components/ServiceHistory";
 import LoyaltyProgram from "@/components/LoyaltyProgram";
-import PaymentModal from "@/components/PaymentModal";
+import BookingConfirmation from "@/components/BookingConfirmation";
+import OrderStatusTracker from "@/components/OrderStatusTracker";
+import NotificationCenter from "@/components/NotificationCenter";
+import QuickActionsWidget from "@/components/QuickActionsWidget";
 import FilterBar from "@/components/farmer/FilterBar";
 import SmartRecommendations from "@/components/SmartRecommendations";
 import Footer from "@/components/Footer";
@@ -30,8 +33,10 @@ const FarmerDashboard = ({ onBack, onShowTracking, user }: FarmerDashboardProps)
   const { signOut } = useAuth();
   const { toast } = useToast();
   const [showBooking, setShowBooking] = useState(false);
-  const [showPayment, setShowPayment] = useState(false);
   const [showVoiceConfirmation, setShowVoiceConfirmation] = useState(false);
+  const [showBookingConfirmation, setShowBookingConfirmation] = useState(false);
+  const [showOrderTracking, setShowOrderTracking] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
   const [selectedProvider, setSelectedProvider] = useState<any>(null);
   const [activeSection, setActiveSection] = useState<string>("dashboard");
   const [bookingData, setBookingData] = useState<any>(null);
@@ -92,14 +97,26 @@ const FarmerDashboard = ({ onBack, onShowTracking, user }: FarmerDashboardProps)
   ];
 
   const handleBookingConfirm = (data: any) => {
-    setBookingData(data);
+    setBookingData({...data, provider: selectedProvider});
     setShowBooking(false);
     setShowVoiceConfirmation(true);
   };
 
   const handleVoiceConfirmed = () => {
     setShowVoiceConfirmation(false);
-    setShowPayment(true);
+    setShowBookingConfirmation(true);
+  };
+
+  const handleTrackFromConfirmation = () => {
+    setShowBookingConfirmation(false);
+    setShowOrderTracking(true);
+  };
+
+  const handleQuickBook = () => {
+    if (droneProviders.length > 0) {
+      setSelectedProvider(droneProviders[0]); // Use nearest/best provider
+      setShowBooking(true);
+    }
   };
 
   return (
@@ -135,6 +152,16 @@ const FarmerDashboard = ({ onBack, onShowTracking, user }: FarmerDashboardProps)
           </div>
           <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-cyan-600 bg-clip-text text-transparent">Farmer Dashboard</h1>
           <div className="flex items-center gap-3">
+            <Button 
+              onClick={() => setShowNotifications(true)} 
+              variant="outline" 
+              className="relative border-blue-600 text-blue-700 hover:bg-blue-600 hover:text-white"
+            >
+              <Bell className="w-4 h-4" />
+              <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full text-xs flex items-center justify-center text-white">
+                3
+              </span>
+            </Button>
             <RealTimeNotifications />
             <Button onClick={onShowTracking} className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700">
               Track Order
@@ -199,25 +226,22 @@ const FarmerDashboard = ({ onBack, onShowTracking, user }: FarmerDashboardProps)
           </div>
         </Card>
 
+        {/* Content Sections */}
         {activeSection === "dashboard" && (
           <>
-            {/* AI Smart Recommendations */}
+            <QuickActionsWidget 
+              onBookService={handleQuickBook}
+              onTrackOrder={() => setShowOrderTracking(true)}
+              onContactSupport={() => toast({ title: "Contacting Support", description: "Customer service will call you shortly" })}
+            />
             <SmartRecommendations />
-
-            {/* Smart Scheduling Widget */}
             <div className="mb-6">
               <SmartSchedulingWidget />
             </div>
-
-            {/* Weather Widget */}
             <div className="mb-6">
               <WeatherWidget />
             </div>
-
-            {/* Filter Bar */}
             <FilterBar />
-
-            {/* Drone Providers */}
             <div className="space-y-6">
               {droneProviders.map((provider) => (
                 <DroneProviderCard
@@ -239,7 +263,7 @@ const FarmerDashboard = ({ onBack, onShowTracking, user }: FarmerDashboardProps)
         {activeSection === "history" && <ServiceHistory />}
         {activeSection === "loyalty" && <LoyaltyProgram />}
 
-        {/* Enhanced Booking Modal */}
+        {/* Modals */}
         {showBooking && selectedProvider && (
           <EnhancedBookingModal
             provider={selectedProvider}
@@ -251,7 +275,6 @@ const FarmerDashboard = ({ onBack, onShowTracking, user }: FarmerDashboardProps)
           />
         )}
 
-        {/* Voice Confirmation Modal */}
         <VoiceConfirmation
           isOpen={showVoiceConfirmation}
           onClose={() => setShowVoiceConfirmation(false)}
@@ -259,15 +282,24 @@ const FarmerDashboard = ({ onBack, onShowTracking, user }: FarmerDashboardProps)
           onConfirmed={handleVoiceConfirmed}
         />
 
-        {/* Payment Modal */}
-        <PaymentModal
-          isOpen={showPayment}
-          onClose={() => setShowPayment(false)}
-          totalAmount={bookingData?.totalCost || 0}
-          onPaymentSuccess={() => {
-            setShowPayment(false);
-            onShowTracking();
-          }}
+        {showBookingConfirmation && bookingData && (
+          <BookingConfirmation
+            bookingData={bookingData}
+            onClose={() => setShowBookingConfirmation(false)}
+            onTrackOrder={handleTrackFromConfirmation}
+          />
+        )}
+
+        {showOrderTracking && (
+          <OrderStatusTracker
+            orderId={`AGD${Date.now().toString().slice(-6)}`}
+            onClose={() => setShowOrderTracking(false)}
+          />
+        )}
+
+        <NotificationCenter
+          isOpen={showNotifications}
+          onClose={() => setShowNotifications(false)}
         />
       </div>
       <Footer />
