@@ -1,12 +1,10 @@
-
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Drone, Users, BarChart3, Shield, Star, ChevronRight, LogIn } from "lucide-react";
+import { MapPin, Phone, Clock, Star, Plane } from "lucide-react";
 import LanguageSelector from "@/components/LanguageSelector";
-import Footer from "@/components/Footer";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface LandingPageProps {
   onUserTypeSelect: (type: "farmer" | "provider") => void;
@@ -15,7 +13,7 @@ interface LandingPageProps {
 }
 
 const LandingPage = ({ onUserTypeSelect, selectedLanguage, onLanguageChange }: LandingPageProps) => {
-  const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <div 
@@ -31,123 +29,117 @@ const LandingPage = ({ onUserTypeSelect, selectedLanguage, onLanguageChange }: L
       }}
     >
       <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/90 via-sky-50/90 to-violet-50/90"></div>
-      
-      {/* Header */}
-      <div className="relative z-10 container mx-auto px-4 py-6">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center space-x-4">
-            <div className="w-10 h-10 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-lg flex items-center justify-center">
-              <Drone className="w-6 h-6 text-white" />
-            </div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-              AgriDrone
+      <div className="relative z-10 container mx-auto px-4 py-8">
+        {/* Header */}
+        <div className="flex justify-between items-center mb-8">
+          <div>
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-cyan-600 bg-clip-text text-transparent">
+              {t('AgriDrone Solutions')}
             </h1>
+            <p className="text-lg text-gray-700">{t('Your partner in precision agriculture')}</p>
           </div>
-          
-          <div className="flex items-center space-x-4">
-            <LanguageSelector 
-              selectedLanguage={selectedLanguage} 
-              onLanguageChange={onLanguageChange} 
-            />
-            <Button 
-              onClick={() => navigate('/auth')}
-              variant="outline"
-              className="border-emerald-600 text-emerald-700 hover:bg-emerald-600 hover:text-white"
-            >
-              <LogIn className="w-4 h-4 mr-2" />
-              Login / Sign Up
-            </Button>
-          </div>
+          <LanguageSelector selectedLanguage={selectedLanguage} onLanguageChange={onLanguageChange} />
         </div>
-      </div>
 
-      {/* Hero Section */}
-      <div className="relative z-10 container mx-auto px-4 py-20">
-        <div className="text-center max-w-4xl mx-auto">
-          <Badge className="mb-6 bg-gradient-to-r from-emerald-600 to-teal-600 text-white">
-            🚀 Revolutionizing Agriculture
-          </Badge>
-          
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-transparent">
-            Smart Drone Services for Modern Farming
-          </h1>
-          
-          <p className="text-xl text-gray-700 mb-8 leading-relaxed">
-            Connect farmers with professional drone operators for precision agriculture, 
-            crop monitoring, and smart farming solutions powered by AI technology.
-          </p>
+        {/* Hero Section */}
+        <Card className="p-8 mb-8 bg-white/90 backdrop-blur-sm border-0 shadow-lg">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <h2 className="text-2xl font-semibold mb-4">{t('Revolutionize Your Farm with AgriDrone')}</h2>
+              <p className="text-gray-600 mb-6">
+                {t('Experience the future of agriculture with our advanced drone services. Increase efficiency, reduce costs, and improve crop yields.')}
+              </p>
+              <Button className="bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-700 hover:to-cyan-700">
+                {t('Learn More')}
+              </Button>
+            </div>
+            <img
+              src="/drone-hero.png"
+              alt="AgriDrone in Action"
+              className="rounded-lg shadow-md"
+            />
+          </div>
+        </Card>
 
-          {/* User Type Selection Cards */}
-          <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto mt-16">
-            <Card 
-              className="group cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-2xl bg-white/90 backdrop-blur-sm border-0"
+        {/* Services Section */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <Card className="p-6 bg-white/90 backdrop-blur-sm border-0 shadow-lg">
+            <Plane className="w-6 h-6 text-emerald-600 mb-4" />
+            <h3 className="text-xl font-semibold mb-2">{t('Drone Spraying')}</h3>
+            <p className="text-gray-600">{t('Precision spraying for optimal coverage and reduced chemical usage.')}</p>
+          </Card>
+          <Card className="p-6 bg-white/90 backdrop-blur-sm border-0 shadow-lg">
+            <MapPin className="w-6 h-6 text-sky-600 mb-4" />
+            <h3 className="text-xl font-semibold mb-2">{t('Field Mapping')}</h3>
+            <p className="text-gray-600">{t('Detailed aerial maps for better field analysis and planning.')}</p>
+          </Card>
+          <Card className="p-6 bg-white/90 backdrop-blur-sm border-0 shadow-lg">
+            <Clock className="w-6 h-6 text-violet-600 mb-4" />
+            <h3 className="text-xl font-semibold mb-2">{t('Crop Monitoring')}</h3>
+            <p className="text-gray-600">{t('Real-time monitoring of crop health to identify issues early on.')}</p>
+          </Card>
+        </div>
+
+        {/* Testimonials Section */}
+        <Card className="p-8 mb-8 bg-white/90 backdrop-blur-sm border-0 shadow-lg">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <Star className="w-6 h-6 text-yellow-500 mb-4" />
+              <p className="text-gray-600 italic mb-4">
+                "{t('AgriDrone has transformed our farm. The precision spraying has saved us money and improved our yields.')}"
+              </p>
+              <div className="flex items-center">
+                <img
+                  src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=60"
+                  alt="Farmer John"
+                  className="rounded-full w-12 h-12 mr-4"
+                />
+                <div>
+                  <p className="font-semibold">{t('John Doe')}</p>
+                  <p className="text-sm text-gray-500">{t('Farmer')}</p>
+                </div>
+              </div>
+            </div>
+            <div>
+              <Star className="w-6 h-6 text-yellow-500 mb-4" />
+              <p className="text-gray-600 italic mb-4">
+                "{t('The field mapping service is invaluable. We can now plan our planting and irrigation with much greater accuracy.')}"
+              </p>
+              <div className="flex items-center">
+                <img
+                  src="https://images.unsplash.com/photo-1570295999680-5e27cac9d2ca?auto=format&fit=crop&w=100&q=60"
+                  alt="Jane Smith"
+                  className="rounded-full w-12 h-12 mr-4"
+                />
+                <div>
+                  <p className="font-semibold">{t('Jane Smith')}</p>
+                  <p className="text-sm text-gray-500">{t('Farm Manager')}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Card>
+
+        {/* Call to Action Section */}
+        <Card className="p-8 text-center bg-white/90 backdrop-blur-sm border-0 shadow-lg">
+          <h2 className="text-2xl font-semibold mb-4">{t('Ready to Get Started?')}</h2>
+          <p className="text-gray-600 mb-6">{t('Choose your user type to begin your AgriDrone experience.')}</p>
+          <div className="flex justify-center gap-4">
+            <Button 
+              className="bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-700 hover:to-cyan-700"
               onClick={() => onUserTypeSelect("farmer")}
             >
-              <CardContent className="p-8 text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-                  <Users className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-2xl font-bold mb-4 text-gray-800">I'm a Farmer</h3>
-                <p className="text-gray-600 mb-6">
-                  Book drone services for crop monitoring, spraying, mapping, and precision agriculture solutions.
-                </p>
-                <div className="flex items-center justify-center text-emerald-600 group-hover:text-emerald-700">
-                  <span className="font-semibold mr-2">Get Started</span>
-                  <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card 
-              className="group cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-2xl bg-white/90 backdrop-blur-sm border-0"
+              {t('I am a Farmer')}
+            </Button>
+            <Button 
+              className="bg-gradient-to-r from-sky-600 to-violet-600 hover:from-sky-700 hover:to-violet-700"
               onClick={() => onUserTypeSelect("provider")}
             >
-              <CardContent className="p-8 text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-                  <Drone className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-2xl font-bold mb-4 text-gray-800">I'm a Service Provider</h3>
-                <p className="text-gray-600 mb-6">
-                  Offer your drone services, manage bookings, track operations, and grow your agricultural business.
-                </p>
-                <div className="flex items-center justify-center text-blue-600 group-hover:text-blue-700">
-                  <span className="font-semibold mr-2">Join Network</span>
-                  <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </CardContent>
-            </Card>
+              {t('I am a Service Provider')}
+            </Button>
           </div>
-
-          {/* Feature Highlights */}
-          <div className="grid md:grid-cols-3 gap-8 mt-20">
-            <div className="text-center">
-              <div className="w-12 h-12 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <BarChart3 className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-lg font-semibold mb-2">Smart Analytics</h3>
-              <p className="text-gray-600">AI-powered insights and real-time monitoring for optimal crop management.</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <Shield className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-lg font-semibold mb-2">Secure & Reliable</h3>
-              <p className="text-gray-600">Trusted platform with verified operators and secure payment processing.</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="w-12 h-12 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <Star className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-lg font-semibold mb-2">Premium Quality</h3>
-              <p className="text-gray-600">Professional-grade services with quality assurance and customer support.</p>
-            </div>
-          </div>
-        </div>
+        </Card>
       </div>
-
-      <Footer />
     </div>
   );
 };

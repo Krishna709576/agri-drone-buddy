@@ -1,5 +1,5 @@
 
-import IndexPage from "@/pages/IndexPage";
+import IndexPage from "./IndexPage";
 
 const Index = () => {
   return <IndexPage />;
