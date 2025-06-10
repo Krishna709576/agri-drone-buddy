@@ -19,28 +19,56 @@ const IndexPage = () => {
   const [showTracking, setShowTracking] = useState(false);
   const [showChatbot, setShowChatbot] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [profileLoading, setProfileLoading] = useState(false);
 
   // Fetch user profile when user is authenticated
   useEffect(() => {
     if (user) {
       const fetchUserProfile = async () => {
-        const { data, error } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('user_id', user.id)
-          .single();
-        
-        if (data) {
-          setUserProfile(data);
+        setProfileLoading(true);
+        try {
+          const { data, error } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('user_id', user.id)
+            .single();
+          
+          if (data) {
+            setUserProfile(data);
+          } else if (error) {
+            // If no profile exists, create a default one or proceed without it
+            console.log('No profile found, proceeding with basic user info');
+            setUserProfile({ user_type: 'farmer', full_name: user.email });
+          }
+        } catch (error) {
+          console.error('Profile fetch error:', error);
+          // Fallback to basic user info
+          setUserProfile({ user_type: 'farmer', full_name: user.email });
+        } finally {
+          setProfileLoading(false);
         }
       };
       
       fetchUserProfile();
+    } else {
+      setUserProfile(null);
+      setProfileLoading(false);
     }
   }, [user]);
 
+  // Add timeout to prevent infinite loading
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (loading) {
+        console.log('Auth loading timeout, forcing continue');
+        setIsLoading(false);
+      }
+    }, 5000); // 5 second timeout
+
+    return () => clearTimeout(timeout);
+  }, [loading]);
+
   const handleUserTypeSelect = (type: "farmer" | "provider") => {
-    // Redirect to auth page with user type preference
     navigate('/auth');
   };
 
@@ -68,10 +96,8 @@ const IndexPage = () => {
     }, 1000);
   };
 
-  // Show loading while authentication is being checked
-  if (loading) {
-    return <LoadingScreen isLoading={true} />;
-  }
+  // Show loading with timeout protection
+  const shouldShowLoading = (loading && !user) || profileLoading || isLoading;
 
   if (showTracking) {
     return (
@@ -88,7 +114,7 @@ const IndexPage = () => {
   if (!user) {
     return (
       <>
-        <LoadingScreen isLoading={isLoading} />
+        <LoadingScreen isLoading={shouldShowLoading} />
         <LandingPage 
           onUserTypeSelect={handleUserTypeSelect} 
           selectedLanguage={selectedLanguage} 
@@ -99,13 +125,16 @@ const IndexPage = () => {
     );
   }
 
-  // If user is authenticated but profile is loading
-  if (!userProfile) {
+  // If user is authenticated but profile is still loading (with timeout protection)
+  if (!userProfile && profileLoading) {
     return <LoadingScreen isLoading={true} />;
   }
 
+  // If profile loading failed or took too long, use fallback
+  const profileToUse = userProfile || { user_type: 'farmer', full_name: user.email };
+
   // Show appropriate dashboard based on user type
-  if (userProfile.user_type === "provider") {
+  if (profileToUse.user_type === "provider") {
     return (
       <>
         <LoadingScreen isLoading={isLoading} />
@@ -121,7 +150,7 @@ const IndexPage = () => {
       <FarmerDashboard 
         onBack={handleBackToLanding} 
         onShowTracking={handleShowTracking} 
-        user={userProfile}
+        user={profileToUse}
       />
       <AIChatbot isOpen={showChatbot} onToggle={() => setShowChatbot(!showChatbot)} />
     </>
