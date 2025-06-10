@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Map, History, Gift, Bot, User, BarChart3, Bell, LogOut } from "lucide-react";
+import { Map, History, Gift, Bot, User, BarChart3, Bell, LogOut, Activity, Brain } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import WeatherWidget from "@/components/WeatherWidget";
@@ -22,6 +22,8 @@ import MLFeaturesTab from "@/components/ml/MLFeaturesTab";
 import AnalyticsDashboard from "@/components/analytics/AnalyticsDashboard";
 import RealTimeNotifications from "@/components/analytics/RealTimeNotifications";
 import SmartSchedulingWidget from "@/components/analytics/SmartSchedulingWidget";
+import FarmMapView from "@/components/FarmMapView";
+import RealTimeMLDashboard from "@/components/RealTimeMLDashboard";
 
 interface FarmerDashboardProps {
   onBack: () => void;
@@ -114,7 +116,7 @@ const FarmerDashboard = ({ onBack, onShowTracking, user }: FarmerDashboardProps)
 
   const handleQuickBook = () => {
     if (droneProviders.length > 0) {
-      setSelectedProvider(droneProviders[0]); // Use nearest/best provider
+      setSelectedProvider(droneProviders[0]);
       setShowBooking(true);
     }
   };
@@ -184,6 +186,22 @@ const FarmerDashboard = ({ onBack, onShowTracking, user }: FarmerDashboardProps)
               Find Services
             </Button>
             <Button 
+              variant={activeSection === "map" ? "default" : "outline"}
+              onClick={() => setActiveSection("map")}
+              className={activeSection === "map" ? "bg-gradient-to-r from-green-600 to-emerald-600" : "border-green-600 text-green-700 hover:bg-green-600 hover:text-white"}
+            >
+              <Map className="w-4 h-4 mr-2" />
+              Farm Map
+            </Button>
+            <Button 
+              variant={activeSection === "realtime-ml" ? "default" : "outline"}
+              onClick={() => setActiveSection("realtime-ml")}
+              className={activeSection === "realtime-ml" ? "bg-gradient-to-r from-purple-600 to-indigo-600" : "border-purple-600 text-purple-700 hover:bg-purple-600 hover:text-white"}
+            >
+              <Brain className="w-4 h-4 mr-2" />
+              Real-Time ML
+            </Button>
+            <Button 
               variant={activeSection === "analytics" ? "default" : "outline"}
               onClick={() => setActiveSection("analytics")}
               className={activeSection === "analytics" ? "bg-gradient-to-r from-indigo-600 to-purple-600" : "border-indigo-600 text-indigo-700 hover:bg-indigo-600 hover:text-white"}
@@ -204,7 +222,7 @@ const FarmerDashboard = ({ onBack, onShowTracking, user }: FarmerDashboardProps)
               onClick={() => setActiveSection("fields")}
               className={activeSection === "fields" ? "bg-gradient-to-r from-cyan-600 to-blue-600" : "border-cyan-600 text-cyan-700 hover:bg-cyan-600 hover:text-white"}
             >
-              <Map className="w-4 h-4 mr-2" />
+              <Activity className="w-4 h-4 mr-2" />
               My Fields
             </Button>
             <Button 
@@ -257,6 +275,8 @@ const FarmerDashboard = ({ onBack, onShowTracking, user }: FarmerDashboardProps)
           </>
         )}
 
+        {activeSection === "map" && <FarmMapView />}
+        {activeSection === "realtime-ml" && <RealTimeMLDashboard />}
         {activeSection === "analytics" && <AnalyticsDashboard />}
         {activeSection === "ml" && <MLFeaturesTab />}
         {activeSection === "fields" && <FieldManagement />}
