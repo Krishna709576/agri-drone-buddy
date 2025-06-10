@@ -19,54 +19,31 @@ const IndexPage = () => {
   const [showTracking, setShowTracking] = useState(false);
   const [showChatbot, setShowChatbot] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [profileLoading, setProfileLoading] = useState(false);
 
-  // Fetch user profile when user is authenticated
+  // Simplified profile fetching
   useEffect(() => {
     if (user) {
       const fetchUserProfile = async () => {
-        setProfileLoading(true);
         try {
-          const { data, error } = await supabase
+          const { data } = await supabase
             .from('profiles')
             .select('*')
             .eq('user_id', user.id)
             .single();
           
-          if (data) {
-            setUserProfile(data);
-          } else if (error) {
-            // If no profile exists, create a default one or proceed without it
-            console.log('No profile found, proceeding with basic user info');
-            setUserProfile({ user_type: 'farmer', full_name: user.email });
-          }
+          // Use profile data if exists, otherwise create a default profile
+          setUserProfile(data || { user_type: 'farmer', full_name: user.email });
         } catch (error) {
-          console.error('Profile fetch error:', error);
-          // Fallback to basic user info
+          // On any error, just use default profile
           setUserProfile({ user_type: 'farmer', full_name: user.email });
-        } finally {
-          setProfileLoading(false);
         }
       };
       
       fetchUserProfile();
     } else {
       setUserProfile(null);
-      setProfileLoading(false);
     }
   }, [user]);
-
-  // Add timeout to prevent infinite loading
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      if (loading) {
-        console.log('Auth loading timeout, forcing continue');
-        setIsLoading(false);
-      }
-    }, 5000); // 5 second timeout
-
-    return () => clearTimeout(timeout);
-  }, [loading]);
 
   const handleUserTypeSelect = (type: "farmer" | "provider") => {
     navigate('/auth');
@@ -77,15 +54,7 @@ const IndexPage = () => {
     setTimeout(() => {
       setShowTracking(true);
       setIsLoading(false);
-    }, 1200);
-  };
-
-  const handleBackToLanding = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setShowTracking(false);
-      setIsLoading(false);
-    }, 1000);
+    }, 800);
   };
 
   const handleBackFromTracking = () => {
@@ -93,11 +62,13 @@ const IndexPage = () => {
     setTimeout(() => {
       setShowTracking(false);
       setIsLoading(false);
-    }, 1000);
+    }, 500);
   };
 
-  // Show loading with timeout protection
-  const shouldShowLoading = (loading && !user) || profileLoading || isLoading;
+  // Only show loading for very brief initial auth check
+  if (loading && !user && !userProfile) {
+    return <LoadingScreen isLoading={true} />;
+  }
 
   if (showTracking) {
     return (
@@ -110,11 +81,10 @@ const IndexPage = () => {
     );
   }
 
-  // If user is not authenticated, show landing page
+  // If no user, show landing page
   if (!user) {
     return (
       <>
-        <LoadingScreen isLoading={shouldShowLoading} />
         <LandingPage 
           onUserTypeSelect={handleUserTypeSelect} 
           selectedLanguage={selectedLanguage} 
@@ -125,20 +95,14 @@ const IndexPage = () => {
     );
   }
 
-  // If user is authenticated but profile is still loading (with timeout protection)
-  if (!userProfile && profileLoading) {
-    return <LoadingScreen isLoading={true} />;
-  }
-
-  // If profile loading failed or took too long, use fallback
+  // User is authenticated - show dashboard immediately with fallback profile
   const profileToUse = userProfile || { user_type: 'farmer', full_name: user.email };
 
-  // Show appropriate dashboard based on user type
   if (profileToUse.user_type === "provider") {
     return (
       <>
         <LoadingScreen isLoading={isLoading} />
-        <ProviderDashboard onBack={handleBackToLanding} />
+        <ProviderDashboard onBack={() => navigate('/')} />
         <AIChatbot isOpen={showChatbot} onToggle={() => setShowChatbot(!showChatbot)} />
       </>
     );
@@ -148,7 +112,7 @@ const IndexPage = () => {
     <>
       <LoadingScreen isLoading={isLoading} />
       <FarmerDashboard 
-        onBack={handleBackToLanding} 
+        onBack={() => navigate('/')} 
         onShowTracking={handleShowTracking} 
         user={profileToUse}
       />
