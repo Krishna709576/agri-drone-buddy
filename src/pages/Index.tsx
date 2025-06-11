@@ -1,8 +1,8 @@
 
-import IndexPage from "./IndexPage";
+import IndexPageWithAuth from "./IndexPageWithAuth";
 
 const Index = () => {
-  return <IndexPage />;
+  return <IndexPageWithAuth />;
 };
 
 export default Index;
