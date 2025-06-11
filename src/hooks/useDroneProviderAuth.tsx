@@ -40,13 +40,17 @@ export const DroneProviderAuthProvider = ({ children }: { children: React.ReactN
         
         if (session?.user) {
           // Fetch drone provider profile using raw query to avoid type issues
-          const { data: profile } = await supabase
+          const { data: profile, error } = await supabase
             .from('drone_providers' as any)
             .select('*')
             .eq('user_id', session.user.id)
             .single();
           
-          setProviderProfile(profile);
+          if (!error && profile) {
+            setProviderProfile(profile);
+          } else {
+            setProviderProfile(null);
+          }
         } else {
           setProviderProfile(null);
         }
