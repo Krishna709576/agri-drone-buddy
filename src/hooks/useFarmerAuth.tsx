@@ -37,9 +37,9 @@ export const FarmerAuthProvider = ({ children }: { children: React.ReactNode }) 
         setUser(session?.user ?? null);
         
         if (session?.user) {
-          // Fetch farmer profile
+          // Fetch farmer profile using raw query to avoid type issues
           const { data: profile } = await supabase
-            .from('farmers')
+            .from('farmers' as any)
             .select('*')
             .eq('user_id', session.user.id)
             .single();

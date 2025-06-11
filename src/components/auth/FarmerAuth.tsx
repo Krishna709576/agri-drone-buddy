@@ -52,9 +52,9 @@ const FarmerAuth = ({ isOpen, onClose, onAuthSuccess }: FarmerAuthProps) => {
           variant: "destructive"
         });
       } else if (data.user) {
-        // Check if user is a farmer
+        // Check if user is a farmer using raw query to avoid type issues
         const { data: farmerData } = await supabase
-          .from('farmers')
+          .from('farmers' as any)
           .select('*')
           .eq('user_id', data.user.id)
           .single();
@@ -108,9 +108,9 @@ const FarmerAuth = ({ isOpen, onClose, onAuthSuccess }: FarmerAuthProps) => {
           variant: "destructive"
         });
       } else if (data.user) {
-        // Create farmer profile
+        // Create farmer profile using raw query to avoid type issues
         const { error: profileError } = await supabase
-          .from('farmers')
+          .from('farmers' as any)
           .insert({
             user_id: data.user.id,
             full_name: signupData.fullName,

@@ -24,9 +24,9 @@ const IndexPageWithAuth = () => {
       const { data: { session } } = await supabase.auth.getSession();
       
       if (session?.user) {
-        // Check if user is a farmer
+        // Check if user is a farmer using raw query to avoid type issues
         const { data: farmerData } = await supabase
-          .from('farmers')
+          .from('farmers' as any)
           .select('*')
           .eq('user_id', session.user.id)
           .single();
@@ -38,9 +38,9 @@ const IndexPageWithAuth = () => {
           return;
         }
 
-        // Check if user is a drone provider
+        // Check if user is a drone provider using raw query to avoid type issues
         const { data: providerData } = await supabase
-          .from('drone_providers')
+          .from('drone_providers' as any)
           .select('*')
           .eq('user_id', session.user.id)
           .single();

@@ -24,6 +24,78 @@ export type Database = {
         }
         Relationships: []
       }
+      drone_providers: {
+        Row: {
+          company_name: string
+          created_at: string
+          drone_count: number
+          email: string
+          experience_years: number
+          full_name: string
+          id: string
+          phone_number: string
+          service_area: string
+          user_id: string
+        }
+        Insert: {
+          company_name: string
+          created_at?: string
+          drone_count: number
+          email: string
+          experience_years: number
+          full_name: string
+          id?: string
+          phone_number: string
+          service_area: string
+          user_id: string
+        }
+        Update: {
+          company_name?: string
+          created_at?: string
+          drone_count?: number
+          email?: string
+          experience_years?: number
+          full_name?: string
+          id?: string
+          phone_number?: string
+          service_area?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      farmers: {
+        Row: {
+          created_at: string
+          email: string
+          farm_location: string
+          farm_size: string
+          full_name: string
+          id: string
+          phone_number: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          farm_location: string
+          farm_size: string
+          full_name: string
+          id?: string
+          phone_number: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          farm_location?: string
+          farm_size?: string
+          full_name?: string
+          id?: string
+          phone_number?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string | null

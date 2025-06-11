@@ -54,9 +54,9 @@ const DroneProviderAuth = ({ isOpen, onClose, onAuthSuccess }: DroneProviderAuth
           variant: "destructive"
         });
       } else if (data.user) {
-        // Check if user is a drone provider
+        // Check if user is a drone provider using raw query to avoid type issues
         const { data: providerData } = await supabase
-          .from('drone_providers')
+          .from('drone_providers' as any)
           .select('*')
           .eq('user_id', data.user.id)
           .single();
@@ -110,9 +110,9 @@ const DroneProviderAuth = ({ isOpen, onClose, onAuthSuccess }: DroneProviderAuth
           variant: "destructive"
         });
       } else if (data.user) {
-        // Create drone provider profile
+        // Create drone provider profile using raw query to avoid type issues
         const { error: profileError } = await supabase
-          .from('drone_providers')
+          .from('drone_providers' as any)
           .insert({
             user_id: data.user.id,
             full_name: signupData.fullName,
