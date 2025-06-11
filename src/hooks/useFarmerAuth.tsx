@@ -44,8 +44,8 @@ export const FarmerAuthProvider = ({ children }: { children: React.ReactNode }) 
             .eq('user_id', session.user.id)
             .single();
           
-          if (!error && profile) {
-            setFarmerProfile(profile);
+          if (!error && profile && typeof profile === 'object' && 'user_id' in profile) {
+            setFarmerProfile(profile as FarmerProfile);
           } else {
             setFarmerProfile(null);
           }

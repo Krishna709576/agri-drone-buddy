@@ -56,9 +56,16 @@ const LandingPageWithAuth = ({ selectedLanguage, onLanguageChange }: LandingPage
 
           {/* User Type Selection */}
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
-            <Card className="p-8 text-center bg-white/95 backdrop-blur-sm border-0 shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105">
-              <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Leaf className="w-8 h-8 text-emerald-600" />
+            <Card className="p-8 text-center bg-white/95 backdrop-blur-sm border-0 shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 overflow-hidden">
+              <div className="mb-6">
+                <img
+                  src="/lovable-uploads/78281aa0-4cd4-4d2e-8beb-8de2396de983.png"
+                  alt="Indian farmer in field"
+                  className="w-full h-48 object-cover rounded-lg mb-4"
+                />
+                <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto">
+                  <Leaf className="w-8 h-8 text-emerald-600" />
+                </div>
               </div>
               <h3 className="text-2xl font-bold mb-4 text-emerald-700">I'm a Farmer</h3>
               <p className="text-gray-600 mb-6">
@@ -72,9 +79,16 @@ const LandingPageWithAuth = ({ selectedLanguage, onLanguageChange }: LandingPage
               </Button>
             </Card>
 
-            <Card className="p-8 text-center bg-white/95 backdrop-blur-sm border-0 shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Plane className="w-8 h-8 text-blue-600" />
+            <Card className="p-8 text-center bg-white/95 backdrop-blur-sm border-0 shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 overflow-hidden">
+              <div className="mb-6">
+                <img
+                  src="/lovable-uploads/aa433a67-8b77-4f6b-a115-bfa3f0e964a3.png"
+                  alt="Drone operator in field"
+                  className="w-full h-48 object-cover rounded-lg mb-4"
+                />
+                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
+                  <Plane className="w-8 h-8 text-blue-600" />
+                </div>
               </div>
               <h3 className="text-2xl font-bold mb-4 text-blue-700">I'm a Drone Provider</h3>
               <p className="text-gray-600 mb-6">

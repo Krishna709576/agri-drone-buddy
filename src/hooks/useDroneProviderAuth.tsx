@@ -46,8 +46,8 @@ export const DroneProviderAuthProvider = ({ children }: { children: React.ReactN
             .eq('user_id', session.user.id)
             .single();
           
-          if (!error && profile) {
-            setProviderProfile(profile);
+          if (!error && profile && typeof profile === 'object' && 'user_id' in profile) {
+            setProviderProfile(profile as DroneProviderProfile);
           } else {
             setProviderProfile(null);
           }
