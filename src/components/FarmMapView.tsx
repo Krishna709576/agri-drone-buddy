@@ -1,11 +1,10 @@
-
 import { useEffect, useRef, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { 
   MapPin, 
-  Drone, 
+  Plane, 
   Play, 
   Pause, 
   RotateCcw, 
@@ -328,7 +327,7 @@ const FarmMapView = () => {
           <div className="font-semibold">65%</div>
         </div>
         <div className="bg-purple-50 p-3 rounded-lg text-center">
-          <Drone className="w-5 h-5 text-purple-600 mx-auto mb-1" />
+          <Plane className="w-5 h-5 text-purple-600 mx-auto mb-1" />
           <div className="text-sm text-gray-600">Speed</div>
           <div className="font-semibold">{droneLocation?.speed?.toFixed(1) || '0'} km/h</div>
         </div>
